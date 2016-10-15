@@ -1,0 +1,21 @@
+.home-page {
+	margin: 0 auto;
+	padding: 20px 40px;
+	height: 100%;
+	width: 1490px;
+	background: #26354c;
+}
+.home-page-nav {
+	margin: 10px 0 20px 0;
+}
+.home-page-nav div {
+	display:inline;
+	margin-right: 50px;
+}
+.home-page-nav> div:last-child {
+	margin-right: 0;
+	float: right;
+}
+.home-page-nav> div:last-child .btn{
+	margin-left: 30px;
+}

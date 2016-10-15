@@ -1,0 +1,4 @@
+var config = new Map();
+
+//角色管理查询
+config.put("rolemanagerQuery","/jckf/role_management/roleQuery");

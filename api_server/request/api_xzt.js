@@ -1,0 +1,18 @@
+exports.request = function(app,queryResponse){
+
+	app.post('/jckf/projectMember/queryProjectMember',function(req,res){
+		console.log('...');
+		// var perData = devidePage(req.body,queryResponse.BasisShowData);
+		setTimeout(function() {
+			var resData  = {
+				success:true,
+				data: {
+					page:{totalCount:2},
+					list:queryResponse.ProjectMemberData
+				}
+			};
+			res.send(resData);
+		},1000);
+	});
+
+};

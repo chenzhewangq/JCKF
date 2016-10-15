@@ -1,0 +1,77 @@
+<div style="height: 100%; width: 1490px; margin: 0 auto;" class="clearfix" > 
+	<!-- sidebar -->
+	<div id="sidebarDiv" class="clearfix">
+			<div class="sidebar-nav" style="height: 100%;">
+				<div id="sidehid" style="display: none;">
+				<ul>
+					<li style="border-bottom: 1px solid #a8aeb7;"><span style="display: block;width: inherit;padding: 10px;color: #a8aeb7; font-size: 25px;">集成开发管理平台系统</span></li>
+				</ul>
+				<ul>
+					<li><a href="#" data-target=".dashboard-menu" class="nav-header" data-toggle="collapse"><i class="fa fa-fw fa-dashboard"></i> 开发阶段管控<i class="fa fa-hand-o-down" style="float: right"></i></a></li>
+					<li>
+						<ul class="dashboard-menu nav nav-list collapse in">
+					        <li><a href="#" ui-sref="projectManage.devUnitTest"><span style="color: white; background: none" class="fa fa-caret-right"></span> 单元测试</a></li>
+					        <li ><a href="users.html"><span class="fa fa-caret-right"></span> 代码检查</a></li>
+					        <li ><a href="user.html"><span class="fa fa-caret-right"></span> 代码评审</a></li>
+						</ul>
+					</li>
+
+					<li><a href="#" data-target=".bbgl" class="nav-header" data-toggle="collapse"><i class="fa fa-fw fa-dashboard"></i> 版本管理<i class="fa fa-hand-o-down" style="float: right"></i></a></li>
+					<li>
+						<ul class="bbgl nav nav-list collapse in">
+					        <li><a href="index.html"><span style="color: white; background: none" class="fa fa-caret-right"></span> 单元测试</a></li>
+					        <li ><a href="users.html"><span class="fa fa-caret-right"></span> 代码检查</a></li>
+					        <li ><a href="user.html"><span class="fa fa-caret-right"></span> 代码评审</a></li>
+					        <li ><a href="user.html"><span class="fa fa-caret-right"></span> 缺陷管理</a></li>
+					        <li ><a href="user.html"><span class="fa fa-caret-right"></span> 会签管理</a></li>
+						</ul>
+					</li>
+
+					<!-- <li data-popover="true" data-content="Items in this group require a <strong><a href='http://portnine.com/bootstrap-themes/aircraft' target='blank'>premium license</a><strong>." rel="popover" data-placement="right"><a href="#" data-target=".premium-menu" class="nav-header collapsed" data-toggle="collapse"><i class="fa fa-fw fa-fighter-jet"></i> Premium Features<i class="fa fa-collapse"></i></a>
+					</li>
+					    <li><ul class="premium-menu nav nav-list collapse">
+					        <li class="visible-xs visible-sm"><a href="#">- Premium features require a license -</a></span>
+					        <li ><a href="premium-profile.html"><span class="fa fa-caret-right"></span> Enhanced Profile</a></li>
+					        <li ><a href="premium-blog.html"><span class="fa fa-caret-right"></span> Blog</a></li>
+					        <li ><a href="premium-blog-item.html"><span class="fa fa-caret-right"></span> Blog Page</a></li>
+					        <li ><a href="premium-pricing-tables.html"><span class="fa fa-caret-right"></span> Pricing Tables</a></li>
+					        <li ><a href="premium-upgrade-account.html"><span class="fa fa-caret-right"></span> Upgrade Account</a></li>
+					        <li ><a href="premium-widgets.html"><span class="fa fa-caret-right"></span> Widgets</a></li>
+					        <li ><a href="premium-timeline.html"><span class="fa fa-caret-right"></span> Activity Timeline</a></li>
+					        <li ><a href="premium-users.html"><span class="fa fa-caret-right"></span> Enhanced Users List</a></li>
+					        <li ><a href="premium-media.html"><span class="fa fa-caret-right"></span> Enhanced Media</a></li>
+					        <li ><a href="premium-invoice.html"><span class="fa fa-caret-right"></span> Invoice</a></li>
+					        <li ><a href="premium-build.html"><span class="fa fa-caret-right"></span> Advanced Tools</a></li>
+					        <li ><a href="premium-colors.html"><span class="fa fa-caret-right"></span> Additional Color Themes</a></li>
+							</ul>
+						</li> -->
+				</ul>
+				</div>
+				<div id="foward">
+					<img src="images/icon_02.png" >
+				</div>
+			</div>
+			
+	</div>
+	<!-- 项目管理：替换DIV层 -->
+	<div class="pro_main clearfix" style="background-color: #26354c;">
+		<div ui-view></div>
+	</div>
+</div>
+<script>
+ $('#sidebarDiv').hover(function() {
+   $(".sidebar-nav").stop().animate({marginLeft: '0'},800);
+   $(".sidebar-nav").css('background','#1B2A43');
+   $(".sidebar-nav").css('border-right','1px solid white');
+   $("#foward").stop().animate({left: '100%'},800);
+   $("#sidehid").fadeIn();
+   $("#foward img").attr('src', 'images/icon_01.png');
+ }, function() {
+   $(".sidebar-nav").stop().animate({marginLeft: '-17%'},800);
+   $(".sidebar-nav").css('background','#26354C');
+   $(".sidebar-nav").css('border-right','none');
+   $("#sidehid").fadeOut();
+   $("#foward").stop().animate({left: '100%'},800);
+   $("#foward img").attr('src', 'images/icon_02.png');
+ })
+</script>

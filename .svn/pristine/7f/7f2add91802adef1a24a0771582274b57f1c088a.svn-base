@@ -1,0 +1,102 @@
+<style type="text/css">
+  .add-pro-nav-div {
+    float: left;
+    margin: 10px 20px;
+  }
+  .add-pro-nav-div input {
+    width: 250px;
+  }
+ .form-group {
+  margin-left: 170px;
+ }
+</style>
+<!-- <div class="home-page" style="margin: ">
+    <form>
+      <div class="add-pro-nav clearfix">
+        <div class="add-pro-nav-div"><span>项目名称：</span><input type="text"></div>
+        <div class="add-pro-nav-div"><span>项目编码：</span><input type="text"></div>
+        <div class="add-pro-nav-div"><span>项目经理：</span><input type="text"></div>
+        <div class="add-pro-nav-div"><span>开始时间：</span><input type="date" name="startTime"></div>
+        <div class="add-pro-nav-div"><span>结束时间：</span><input type="date" name="startTime"></div>
+        <div class="add-pro-nav-div"><span>项目状态：</span>
+          <div class="dropdown">
+            <button class="btn btn-default dropdown-toggle btn-sm" type="button" id="dropdownMenu1" data-toggle="dropdown">
+              Dropdown
+              <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+              <li role="presentation"><a role="menuitem" tabindex="-1" href="#">进行中</a></li>
+              <li role="presentation"><a role="menuitem" tabindex="-1" href="#">已结束</a></li>
+              <li role="presentation"><a role="menuitem" tabindex="-1" href="#">计划中</a></li>
+            </ul>
+          </div>
+        </div>        
+      </div>
+      <div style="margin:10px 20px"><span>项目描述：</span><textarea name="MSG" style="width:500px;height:80px;"></textarea></div>
+      <div style="width: 200px; margin: 0 auto;">
+        <button type="button" class="btn btn-primary btn-sm">保存</button>
+        <button type="button" class="btn btn-success btn-sm" style="margin-left: 20px;">取消</button>
+      </div>
+    </form>
+</div> -->
+
+<div class="home-page">
+  <form class="form-horizontal" role="form" style="width: 1150px;margin-left: 260px;">
+    <div class="form-group">
+      <label for="inputEmail3" class="col-sm-2 control-label">项目名称：</label>
+      <div class="col-sm-5">
+        <input type="text" class="form-control" id="inputEmail3" placeholder="项目名称">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="inputPassword3" class="col-sm-2 control-label">项目编码：</label>
+      <div class="col-sm-5">
+        <input type="text" class="form-control" id="inputPassword3" placeholder="项目编码">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="inputEmail3" class="col-sm-2 control-label">项目经理：</label>
+      <div class="col-sm-5">
+        <input type="text" class="form-control" id="inputEmail3" placeholder="项目经理">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="inputEmail3" class="col-sm-2 control-label">开始时间：</label>
+      <div class="col-sm-5">
+        <input type="date" class="form-control" id="inputEmail3">
+      </div>
+    </div> 
+    <div class="form-group">
+      <label for="inputEmail3" class="col-sm-2 control-label">结束时间：</label>
+      <div class="col-sm-5">
+        <input type="date" class="form-control" id="inputEmail3">
+      </div>
+    </div>
+   <div class="form-group">
+      <!-- <label style="line-height: 50px;'">项目状态：</label> -->
+     <label for="inputEmail3" class="col-sm-2 control-label">项目状态：</label>
+      <div class="col-sm-5">
+          <input type="button" class="form-control" dropdown-toggle" data-toggle="dropdown" id="inputEmail3" placeholder="click me ">
+          <ul class="dropdown-menu" role="menu" style="width: 95%; margin: 14px;">
+            <li><a href="#">Action</a></li>
+            <li><a href="#">Another action</a></li>
+            <li><a href="#">Something else here</a></li>
+            <li class="divider"></li>
+            <li><a href="#">Separated link</a></li>
+          </ul>
+      </div>
+    </div>   
+     <div class="form-group">
+      <label for="inputEmail3" class="col-sm-2 control-label">项目描述：</label>
+      <div class="col-sm-5">
+        <input type="textarea" class="form-control" id="inputEmail3" placeholder="项目描述">
+      </div>
+    </div>  
+    
+  </form>
+  <div style="width: 200px; margin: 0 auto;">
+      <button type="button" class="btn btn-primary btn-sm">保存</button>
+      <button type="button" class="btn btn-success btn-sm" style="margin-left: 20px;">取消</button>
+    </div>   
+</div>
+      

@@ -1,0 +1,160 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <!-- build:css(.) styles/vendor.css -->
+    <!-- bower:css -->
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
+    <!-- endbower -->
+    <!-- endbuild -->
+    <!-- build:css(.tmp) styles/main.css -->
+    <link rel="stylesheet" type="text/css" href="styles/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="styles/common/bootstrap-datetimepicker.min.css">
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/home_page.css">
+    <link rel="stylesheet" href="styles/sidebar.css">
+    <!-- endbuild -->
+    <link rel="stylesheet" href="styles/font-awesome/css/font-awesome.min.css">
+  </head>
+  <body ng-app="jckfApp">
+    <!--[if lte IE 8]>
+      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+    <div class="percent">
+      <header class="headerself clearfix">
+        <div id="header-bck"></div>
+        <img class="header_img" src="images/logo_04.png" alt="中国移动">
+        <nav class="header_nav clearfix">
+          <ul class="clearfix">
+            <li><a class="header_btn" href="#" ui-sref="main"><b>项目管理</b></a></li>
+            <li><a class="header_btn" href="#" ui-sref="userManage"><b>用户管理</b></a></li>
+            <li><a class="header_btn" href="#" ui-sref="logManagement"><b>日志管理</b></a></li>
+            <li><a class="header_btn" href="#" ui-sref="roleManage"><b>角色管理</b></a></li>
+          </ul>
+        </nav>
+        <div class="header_sign_in">
+          <ul class="clearfix">
+            <li><a class="header-btn-sign" href="#"><i class="icon-off" style="margin-right: 5px;"></i>退出</a></li>
+            <li style="color: white;"> | </li>
+
+            <li><a class="header-btn-sign" href="#" data-toggle="modal" data-target="#myPassword"><i class="icon-user-md" style="margin-right: 5px;"></i>修改密码</a></li>
+
+          </ul>
+        </div>
+      </header>
+    </div>
+    <!-- <div class="percent"> -->
+      <div ui-view style="height: 100%; width: 100%" class="clearfix"></div>
+    <!-- </div> -->
+  
+  <!--修改密码静态框-->
+    <div class="modal fade" id="myPassword" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog" style="color:#a2d3f9">
+        <div class="modal-content">
+          <div class="modal-header">
+            <div class="input" style="width: 500px;text-align: center;color: #26354c;">
+              <span>原密码:&nbsp;&nbsp;&nbsp;</span><input type="text" id="oldPassword" name="oldPassword" 
+               ng-model="params.oldPassword" ><br><br>
+              <span>新密码:&nbsp;&nbsp;&nbsp;&nbsp;</span><input type="text" id="newPassword" name="newPassword" ng-model="params.newPassword">
+              <br><br>
+              <span>确认密码:&nbsp;</span><input type="text"  id ="confirmPassword" name="confirmPassword" ng-model="params.confirmPassword">
+              <br><br>    
+            </div>
+      <div  style="text-align: center;color: #26354c;">
+      <button  align="center" type="button" class="btnself" id="lhUpdate" ng-disabled="form4.$invalid" data-toggle="modal" ng-click="saveInfo(params)">保存</button>
+      <button type="button" class="btnself" data-toggle="modal" data-dismiss="modal" ng-click="cancel();">取消</button>
+      </div> 
+
+
+
+
+
+
+
+   <!--  Google Analytics: change UA-XXXXX-X to be your site's ID
+    <script>
+      !function(A,n,g,u,l,a,r){A.GoogleAnalyticsObject=l,A[l]=A[l]||function(){
+      (A[l].q=A[l].q||[]).push(arguments)},A[l].l=+new Date,a=n.createElement(g),
+      r=n.getElementsByTagName(g)[0],a.src=u,r.parentNode.insertBefore(a,r)
+      }(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+   
+      ga('create', 'UA-XXXXX-X');
+      ga('send', 'pageview');
+   </script> -->
+
+    <!-- build:js(.) scripts/vendor.js -->
+    <!-- bower:js -->
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="bower_components/angular-animate/angular-animate.js"></script>
+    <script src="bower_components/angular-resource/angular-resource.js"></script>
+    <script src="bower_components/angular-route/angular-route.js"></script>
+    <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+    <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+    <script src="bower_components/lodash/lodash.js"></script>
+    <script src="bower_components/restangular/dist/restangular.js"></script>
+    <!-- endbower -->
+    <!-- endbuild -->
+    <!-- dataPicker.js -->
+    <script src="scripts/common/bootstrap-datetimepicker.min.js"></script>
+    <script src="scripts/common/bootstrap-datetimepicker.fr.js"></script>
+    <script type="text/javascript">
+        $('.form_datetime').datetimepicker({
+            //language:  'fr',
+            weekStart: 1,
+            todayBtn:  1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        forceParse: 0,
+            showMeridian: 1
+        });
+      $('.form_date').datetimepicker({
+            language:  'fr',
+            weekStart: 1,
+            todayBtn:  1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        forceParse: 0
+        });
+      $('.form_time').datetimepicker({
+            language:  'fr',
+            weekStart: 1,
+            todayBtn:  1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 1,
+        minView: 0,
+        maxView: 1,
+        forceParse: 0
+        });
+    </script>
+    <!-- enddataPicker.js -->
+    <!-- jckfApp.servers: js -->
+    <script src="scripts/services/role_management/role_management_service.js"></script>
+    <script src="scripts/services/user_management/user_management_server.js"></script>
+	  <script src="scripts/services/project_member/project_member_service.js"></script>
+    <script src="scripts/services/log_management/log_management_service.js"></script>
+
+    <!-- endjckfApp.servers -->
+   
+    <!-- build:js({.tmp,app}) scripts/scripts.js -->
+        <script src="scripts/app.js"></script>
+        <script src="scripts/config/config.js"></script>
+    <!-- endbuild -->
+    <script type="text/javascript" src="scripts/controllers/log_management/log_management_ctrl.js"></script>
+    <script type="text/javascript" src="scripts/controllers/role_management/role_management.js"></script>
+    <script type="text/javascript" src="scripts/controllers/main_ctrl.js"></script>
+    <script type="text/javascript" src="scripts/controllers/user_management/user_management.js"></script>
+	<script type="text/javascript" src="scripts/controllers/project_member/project_member_ctrl.js"></script>
+	<script type="text/javascript" src="scripts/controllers/project_member/project_member_add_ctrl.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,190 @@
+<div class="home-page" ng-init="initPage()">
+      <div class="home-page-nav">
+        <div><span>项目名称：</span><input type="text"></div>
+        <div><span>项目经理：</span><input type="text"></div>
+        <div><span>项目状态：</span>
+        <div class="dropdown">
+          <select class="btn btn-default dropdown-toggle btn-sm" style="width: 160px; height: 32px;"  ng-model="queryParams.status"> 
+            <option value="">全部</option>
+            <option value="0">计划中</option> 
+            <option value="1">进行中</option> 
+            <option value="2">已结束</option> 
+          </select>
+        </div>
+        </div>
+        <div>
+          <button type="button" class="btn btn-primary btn-sm" ng-click="query()">查询</button>
+          <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#myModal">
+          添加
+          </button>
+        </div>
+      </div>
+      <table class="table table-bordered">
+        <thead>
+          <th>项目名称</th>
+          <th>项目编号</th>
+          <th>项目开始时间</th>
+          <th>项目结束时间</th>
+          <th>项目经理</th>
+          <th>项目状态</th>
+          <th>操作</th>
+        </thead>
+        <tbody>
+          <tr bindonce ng-repeat="data in res">
+            <td style="cursor: pointer;" data-toggle="modal" data-target="#detailModal" ng-click="checkDetail(data.projectName)">
+              <a>{{data.projectName}}</a>
+            </td>
+            <td>{{data.projectCode}}</td>
+            <td>{{data.startTime}}</td>
+            <td>{{data.endTime}}</td>
+            <td>{{data.projectDirector}}</td>
+            <td>{{data.status}}</td>
+            <td><a href="#" ui-sref="projectManage"><span>进入项目</span></a>
+				        <a href="#" ui-sref="projectMember"><span>项目人员分配</span></a>
+			      </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- 添加项目 -->
+      <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title" id="myModalLabel">添加项目</h4>
+          </div>
+              <div class="modal-body">
+                <form class="form-horizontal" role="form">
+                  <div class="form-group">
+                    <label for="inputEmail3" class="col-sm-2 control-label" style="margin-left: 90px; width: 100px;">项目名称：</label>
+                    <div class="col-sm-5">
+                      <input type="text" class="form-control" id="inputEmail3" placeholder="项目名称" ng-model="addParams.projectName">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="inputPassword3" class="col-sm-2 control-label" style="margin-left: 90px; width: 100px;">项目编码：</label>
+                    <div class="col-sm-5">
+                      <input type="text" class="form-control" id="inputPassword3" placeholder="项目编码" ng-model="addParams.projectCode">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="inputEmail3" class="col-sm-2 control-label" style="margin-left: 90px; width: 100px;">项目经理：</label>
+                    <div class="col-sm-5">
+                      <input type="text" class="form-control" id="inputEmail3" placeholder="项目经理" ng-model="addParams.projectDirector">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="inputEmail3" class="col-sm-2 control-label" style="margin-left: 90px; width: 100px;">开始时间：</label>
+                    <div class="col-sm-5">
+                      <input type="date" class="form-control" id="inputEmail3" ng-model="addParams.startTime">
+                    </div>
+                  </div> 
+                  <div class="form-group">
+                    <label for="inputEmail3" class="col-sm-2 control-label" style="margin-left: 90px; width: 100px;">结束时间：</label>
+                    <div class="col-sm-5">
+                      <input type="date" class="form-control" id="inputEmail3" ng-model="addParams.endTime">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="inputEmail3" class="col-sm-2 control-label" style="margin-left: 90px; width: 100px;">项目状态：</label>
+                    <div class="dropdown">
+                      <select class="btn btn-default dropdown-toggle btn-sm" style="width: 219px; height: 32px; margin-left: 15px;" ng-model="addParams.status" >
+                        <option value="0">计划中</option> 
+                        <option value="1">进行中</option> 
+                        <option value="2">已结束</option> 
+                      </select>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="inputPassword3" class="col-sm-2 control-label" style="margin-left: 90px; width: 100px;">工单编号：</label>
+                    <div class="col-sm-5">
+                      <input type="text" class="form-control" id="inputPassword3" placeholder="工单编号" ng-model="addParams.orderId">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="inputEmail3" class="col-sm-2 control-label" style="margin-left: 90px; width: 100px;">项目描述：</label>
+                    <div class="col-sm-5">
+                      <input type="textarea" class="form-control" id="inputEmail3" placeholder="项目描述" ng-model="addParams.projectDesc">
+                    </div>
+                  </div>  
+                </form>
+                <div class="modal-footer">
+                  <button type="submit" class="btn btn-primary btn-sm" ng-click="add()">保存</button>
+                  <button type="button" class="btn btn-success btn-sm" data-dismiss="modal" style="margin-left: 20px;">取消</button>
+                </div>  
+              </div>
+        </div>
+        </div>
+      </div>  
+
+      <!-- 查看项目 -->
+      <div class="modal fade" id="detailModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title" id="myModalLabel">查看项目基本信息</h4>
+          </div>
+              <div class="modal-body">
+                <form class="form-horizontal" role="form">
+                  <div class="form-group">
+                    <label for="inputEmail3" class="col-sm-2 control-label" style="margin-left: 90px; width: 100px;">项目名称：</label>
+                    <div class="col-sm-5">
+                      <input type="text" class="form-control" id="inputEmail3" placeholder="项目名称" ng-model="details.projectName">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="inputPassword3" class="col-sm-2 control-label" style="margin-left: 90px; width: 100px;">项目编码：</label>
+                    <div class="col-sm-5">
+                      <input type="text" class="form-control" id="inputPassword3" placeholder="项目编码" ng-model="details.projectCode">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="inputEmail3" class="col-sm-2 control-label" style="margin-left: 90px; width: 100px;">项目经理：</label>
+                    <div class="col-sm-5">
+                      <input type="text" class="form-control" id="inputEmail3" placeholder="项目经理" ng-model="details.projectDirector">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="inputEmail3" class="col-sm-2 control-label" style="margin-left: 90px; width: 100px;">开始时间：</label>
+                    <div class="col-sm-5">
+                      <input type="date" class="form-control" id="inputEmail3" ng-model="details.startTime">
+                    </div>
+                  </div> 
+                  <div class="form-group">
+                    <label for="inputEmail3" class="col-sm-2 control-label" style="margin-left: 90px; width: 100px;">结束时间：</label>
+                    <div class="col-sm-5">
+                      <input type="date" class="form-control" id="inputEmail3" ng-model="details.endTime">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="inputEmail3" class="col-sm-2 control-label" style="margin-left: 90px; width: 100px;">项目状态：</label>
+                    <div class="dropdown">
+                      <select class="btn btn-default dropdown-toggle btn-sm" style="width: 219px; height: 32px; margin-left: 15px;" ng-model="details.status" >
+                        <option value="0">计划中</option> 
+                        <option value="1">进行中</option> 
+                        <option value="2">已结束</option> 
+                      </select>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="inputPassword3" class="col-sm-2 control-label" style="margin-left: 90px; width: 100px;">工单编号：</label>
+                    <div class="col-sm-5">
+                      <input type="text" class="form-control" id="inputPassword3" placeholder="工单编号" ng-model="details.orderId">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="inputEmail3" class="col-sm-2 control-label" style="margin-left: 90px; width: 100px;">项目描述：</label>
+                    <div class="col-sm-5">
+                      <input type="textarea" class="form-control" id="inputEmail3" placeholder="项目描述" ng-model="details.projectDesc">
+                    </div>
+                  </div>  
+                </form>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-success btn-sm" data-dismiss="modal" style="margin-left: 20px;">返回</button>
+                </div>  
+              </div>
+        </div>
+        </div>
+      </div>  
+
+</div>

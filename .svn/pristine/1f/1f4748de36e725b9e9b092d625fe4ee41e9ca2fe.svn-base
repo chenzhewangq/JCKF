@@ -1,0 +1,58 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    
+
+    <!-- Bootstrap core CSS -->
+      <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.css" />
+      <link rel="stylesheet" href="/styles/login.css">
+      
+    <!-- Custom styles for this template -->
+   
+
+  </head>
+
+  <body ng-app="jaApp">
+
+  <div id="aaa">
+    <div id="logo">
+      <h1 style="margin:0;"><img src="/images/logo02.png"></h1>
+      <h1>中国移动交易业务支撑部</h1>
+      <h1>集成开发系统登录平台</h1>
+    </div>
+   
+  <form name="myForm" >
+  <div id="login">
+    <div id="user">
+      <img src="/images/17.png">
+      <input type="text" placeholder="账号" ng-model="" class="form-control"  maxlength="15" >
+    </div>
+    <div id="password">
+      <img src="/images/18.png">
+      <input type="password" placeholder="密码" ng-model="" class="form-control"  maxlength="15" >
+    </div>
+    
+    
+     <div style="margin-bottom: 20px">
+        验证码:
+        &nbsp;&nbsp;&nbsp;
+        <input type="text" ng-model="user.imageValue" style="width:20%;margin-right: 15px" maxlength="4">
+        <!-- <img id="getCode" src="/images/yeoman.png" alt="验证码" style="margin-right: 10px"/> -->
+        <a ng-click="" style=" font-size:12px; cursor:pointer;" >换一张</a>
+    </div>
+    <button class="btn btn-prim ary btn-lg btn-block" ng-disabled="click.click" ng-click="" data-toggle="modal">登录</button>
+  </div>
+  </form>
+  
+
+  </div>
+
+   <script src="/bower_components/jquery/dist/jquery.js"></script>
+   <script src="/bower_components/bootstrap/dist/js/bootstrap.js"></script>
+  </body>
+</html>

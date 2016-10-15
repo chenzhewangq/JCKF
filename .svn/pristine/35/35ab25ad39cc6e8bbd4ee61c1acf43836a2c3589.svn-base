@@ -1,0 +1,43 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>用户登录</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" type="text/css" href="../../styles/login.css">
+  <body>
+    <div id="logo">
+      <h1 style="text-align: left;"><img src="../../images/logo_04.png"></h1>
+      <h1 style="text-align: center;">中国移动交易业务支撑部</h1>
+      <h1 style="text-align: center;">集成开发系统登录平台</h1>
+
+      
+
+      <form name="myForm" >
+      <div id="login">
+      <div id="user">
+        <img src="../../images/01.png">
+        <input type="text" placeholder="账号" ng-model="user.loginUser" class="form-control"  >
+      </div>
+      <div id="password">
+      <img src="../../images/02.png">
+      <input type="password" placeholder="密码" ng-model="user.password" class="form-control"  maxlength="15" >
+      </div>
+      <div>
+      <div style="margin-bottom: 25px">
+        验证码:
+        &nbsp;&nbsp;&nbsp;
+        <input type="text" ng-model="user.imageValue" style="width:100px;height: 30px;margin-right: 15px" maxlength="4">
+        <img id="getCode" src="" alt="验证码" style="margin-right: 10px"/>
+        <a ng-click="getImgCode();" style=" font-size:20px; cursor:pointer;" >刷新</a>
+      </div>
+      <button class="btn btn-prim ary btn-lg btn-block" ng-disabled="click.click" ng-click="login(params.moduleId)" data-toggle="modal">登录</button>
+      </div>
+      </form>
+
+     
+
+    </div>
+  </body>
+</html>

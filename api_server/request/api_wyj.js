@@ -1,0 +1,18 @@
+exports.request = function(app,queryResponse){
+
+	app.post('/jckf/user/userQuery',function(req,res){
+		console.log('...');
+		// var perData = devidePage(req.body,queryResponse.BasisShowData);
+		setTimeout(function() {
+			var resData  = {
+				success:true,
+				data: {
+					page:{totalCount:11},
+					list:queryResponse.userBasisShowData
+				}
+			};
+			res.send(resData);
+		},1000);
+	});
+
+};

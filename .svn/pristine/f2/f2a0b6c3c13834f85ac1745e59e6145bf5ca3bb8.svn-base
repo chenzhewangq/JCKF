@@ -1,0 +1,135 @@
+<style type="text/css">
+	.aaa{
+		margin: 0 auto;
+    padding: 20px 40px;
+    height: 100%;
+    width: 1386px;
+    background: #26354c;
+	}
+  .bbb{
+      margin: 10px 0 20px 0;
+  }
+  .ccc{
+      margin: 10px 0 20px 0;
+  }
+  body > div.clearfix.ng-scope > div > div > button{
+        float: right;
+        margin-left: 20px;
+
+  }
+ 
+  body > div.clearfix.ng-scope > div.aaa.ng-scope > div > button:nth-child(5){
+    background: blueviolet;
+  }
+   body > div.clearfix.ng-scope > div.aaa.ng-scope > div > button:nth-child(6){
+    background: green;
+  }
+  body > div.clearfix.ng-scope > div.aaa.ng-scope > div > button:nth-child(7){
+    background: brown;
+  }
+  body > div.clearfix.ng-scope > div.aaa.ng-scope > div > button:nth-child(8){
+    background: yellowgreen;
+  }
+  #myModal > div > div.modal-footer > button.bn.btn-success.btn-sm{
+        float: right;
+        margin-left: 20px;
+  }
+.modal-dialog{
+      background: white;
+      color:black;
+      font-family: '微软雅黑';
+      font-size: 14px;
+      background: silver;
+}
+  #addUserModal > div > div.modal-footer{
+    text-align: center;
+  }
+  #modifyUserModal > div > div.modal-footer{
+    text-align: center;
+  }
+}
+</style>
+<div class="aaa" ng-init="initPage()">
+      <div class="bbb">
+        <span>用户名：</span><input type="text" style="#000000">&nbsp;&nbsp;
+        <span>姓&nbsp;名：</span><input type="text">
+        
+          <button type="button" class="btn btn-primary btn-sm" ng-click="">重置密码</button>
+          <button type="button" class="btn btn-primary btn-sm" ng-click="">删除</button>
+          <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modifyUserModal">修改</button>
+          <button type="button" class="btn btn-primary btn-sm" ng-click="userQuery()">查询</button>
+          <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#addUserModal" >添加</button>
+      </div>
+      <table class="table table-bordered">
+        <thead>
+          <th>用户名</th>
+          <th>姓名</th>
+          <th>性别</th>
+          <th>电话</th>
+          <th>邮箱</th>
+          <th>申请时间</th>
+          <th>到期时间</th>
+        </thead>
+
+        <tbody>
+          <tr ng-repeat="date in res">
+            <td>{{date.login_user}}</td>
+            <td>{{date.staff_name}}</td>
+            <td>{{date.gender}}</td>
+            <td>{{date.phone}}</td>
+            <td>{{date.mail}}</td>
+            <td>{{date.time}}</td>
+            <td>{{date.expire_time}}</td>  
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <!--创建添加的模态框-->
+    <div class="modal fade" id="addUserModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" backdrop="true">
+      <div class="modal-dialog">
+        <div class="modal-header">
+          <span><h2>请输入用户信息：</h2></span>
+          </div>
+              
+        <div class="modal-body">
+              <span> 用户名:</span><input type="text" class="ccc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <span>姓&nbsp;&nbsp;&nbsp;&nbsp;名:</span><input type="text" class="ccc"></br>
+              <span>性&nbsp;&nbsp;&nbsp;&nbsp;别:</span>
+              <input type="radio" name="optionsRadiosinline" id="optionsRadios3" 
+         value="option1"  checked>女
+              <input type="radio" name="optionsRadiosinline" id="optionsRadios4" 
+         value="option2">男
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <span>电&nbsp;&nbsp;&nbsp;&nbsp;话:</span><input type="text" class="ccc"></br>
+              <span>邮&nbsp;&nbsp;&nbsp;&nbsp;箱:</span><input type="text" class="ccc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <span>创建时间:</span><input type="text" class="ccc"></br>
+              <span>有效期限:</span><input type=“text class="ccc"></br>
+              
+        </div>
+         <div class="modal-footer">
+          <button type="button" class="btn  btn-info btn-sm" data-dismiss="modal" ng-click="addUser(params)">保存</button>
+          <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">取消</button>     
+         </div>
+     </div>
+    </div>
+    
+    <!--创建修改的模态框-->
+    <div class="modal fade" id="modifyUserModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" backdrop="true">
+      <div class="modal-dialog">
+        <div class="modal-header">
+          <span><h2>请输入修改用户信息：</h2></span>
+        </div>
+              
+        <div class="modal-body">
+              <span>姓&nbsp;&nbsp;&nbsp;&nbsp;名:</span><input type="text" class="ccc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <span>性&nbsp;&nbsp;&nbsp;&nbsp;别:</span><input type="text" class="ccc"></br>
+              <span>电&nbsp;&nbsp;&nbsp;&nbsp;话:</span><input type="text" class="ccc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <span>邮&nbsp;&nbsp;&nbsp;&nbsp;箱:</span><input type="text" class="ccc"></br>
+              <span>到期时间:</span><input type="text" class="ccc"></br>
+        </div>
+         <div class="modal-footer">
+          <button type="button" class="btn  btn-info btn-sm" data-dismiss="modal">保存</button>
+          <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">取消</button>   
+         </div>
+      </div>
+    </div>
