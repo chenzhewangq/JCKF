@@ -14,7 +14,6 @@
     <!-- build:css(.tmp) styles/main.css -->
     <link rel="stylesheet" type="text/css" href="styles/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="styles/common/bootstrap-datetimepicker.min.css">
-    <link rel="stylesheet" href="styles/common/bootstrap-table.css">
     <link rel="stylesheet" href="styles/main.css">
     <link rel="stylesheet" href="styles/home_page.css">
     <link rel="stylesheet" href="styles/sidebar.css">
@@ -122,15 +121,8 @@
     <!-- dataPicker.js -->
     <script src="scripts/common/bootstrap-datetimepicker.min.js"></script>
     <script src="scripts/common/bootstrap-datetimepicker.fr.js"></script>
-
     <!-- enddataPicker.js -->
-    <!-- tableUI.js -->
-    <script src="scripts/common/bootstrap-table.js"></script>
-    <script src="scripts/common/bootstrap-table-zh-CN.js"></script>
-    <!-- endtableUI.js -->
-    
-|
-    
+
     <!-- build:js({.tmp,app}) scripts/scripts.js -->
         <script src="scripts/app.js"></script>
         <script src="scripts/config/config.js"></script>

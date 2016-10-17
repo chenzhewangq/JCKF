@@ -1,0 +1,89 @@
+'use strict';
+
+/**
+ * @ngdoc function
+ * @name integratedDevApp.controller:MainCtrl
+ * @description
+ * # MainCtrl
+ * Controller of the integratedDevApp
+ */
+(function () {
+  angular.module('jckfApp.projectMember')
+  .controller('projectMemberCtrls',  ["$scope", "$http", "projectMemberService", "$stateParams",function ($scope, $http, projectMemberService, $stateParams) {
+    this.awesomeThings = [
+      'HTML5 Boilerplate',
+      'AngularJS',
+      'Karma'
+    ];
+
+    $scope.init = function(){
+      $scope.queryMember();     //µ÷ÓÃ²éÑ¯·½·¨
+    };
+
+    $scope.queryParams = { 
+        login_user:'',
+		staff_name:'',
+		role_name:''
+    };
+
+
+    $scope.queryMember = function() {
+		projectMemberService.query($scope.queryParams,function(res){
+			console.log(res);
+			if (res.success){
+				$scope.res = res.data.list;
+			} else{
+				$scope.setNoticeMsg("Ã»ÓÐ²éÑ¯µ½Êý¾Ý");
+			}
+		});
+    };
+
+//    var daList = { 
+// 1: "第一个选择项", 
+// 2: "第二个选择项", 
+// 3: "第三个选择项", 
+// 4: "第四个选择项", 
+// 5: "第五个选择项", 
+// 6: "第六个选择项" 
+// }; 
+var daList = $scope.yhctlModelOptions = [ 
+                              {roleId: 1, roleName: '限定用户'}, 
+                              {roleId: 2, roleName: "限定商家"}, 
+                              {roleId: 3, roleName: "限定使用次数"},
+                              {roleId: 4, roleName: "限定药品"}, 
+                              {roleId: 5, roleName: "与其它优惠共享"}];
+
+  console.log(daList);
+      
+
+
+    //角色全选和反选
+    $scope.proCheckbox = function(type,daList,index){
+      var roleDaIds = [];
+      var roleDaNames = [];
+      if('one'===type){
+        daList[index].checkbox = !daList[index].checkbox;
+        var mar = 0;
+        for(var i=0;i<daList.length;i++){
+        if(daList[i].checkbox){
+          roleDaIds.push(daList[i].roleId);
+          roleDaNames.push(daList[i].roleName);
+          mar++;
+        }
+        }
+      }
+         var a = $scope.roleId = roleDaIds.join(',');
+          $scope.roleDataNames = roleDaNames.join(',');
+        
+      console.log(a);
+     
+    }
+ 
+
+	$scope.deleteMemeber = function() {
+		
+		
+	}
+	
+   }]);
+})()

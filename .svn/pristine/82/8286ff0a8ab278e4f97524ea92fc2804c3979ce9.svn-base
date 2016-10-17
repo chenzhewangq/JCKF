@@ -1,0 +1,68 @@
+﻿<div class="home-page" ui-view ng-init="init()">
+	<div class="home-page-nav">
+		<div><span>用户名：</span><input type="text"></div>
+        <div><span>姓名：</span><input type="text"></div>
+		<div><span>角色：</span>
+          <div class="dropdown">
+            <button class="btn btn-default dropdown-toggle btn-sm" type="button" id="dropdownMenu1" data-toggle="dropdown">
+              系统管理员
+              <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+              <li role="presentation"><a role="menuitem" tabindex="-1" href="#">系统管理员</a></li>
+              <li role="presentation"><a role="menuitem" tabindex="-1" href="#">项目经理</a></li>
+              <li role="presentation"><a role="menuitem" tabindex="-1" href="#">开发人员</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <div>
+        	<label>所属角色</label>
+					<div class="dropdown" style="width:100%">
+						<input style="background-color:#fff;font-size: 10px;" type="text"  placeholder="请选择角色" ng-model="roleDataNames" data-toggle="dropdown" ng-readonly="true"/>
+						<div type="button"  class="drop-icon" data-toggle="dropdown" aria-expanded="true" style="position: absolute;right: 10px;top: 15px;">
+						    <span class="caret"></span>
+					  	</div>
+					  	<ul class="m-width dropdown-menu drop-width drop-checkbox" role="menu" style="margin-top:0!important">
+					    
+					    <li class="divider"></li>
+					    <li class="pro-list" ng-repeat="r in yhctlModelOptions">
+					    	<label ng-click="proCheckbox('one',yhctlModelOptions,$index)">
+					    		<input type="checkbox" style="margin-top: 0;" ng-checked="r.checkbox">&nbsp;{{r.roleName}}
+					    	</label>
+					    </li>
+					    
+					  </ul>
+					</div>
+        </div>
+
+
+		<div>
+          <button type="button" class="btn btn-primary btn-sm" ng-click="queryMember()">查询</button>
+		  <button type="button" class="btn btn-warning btn-sm" ng-click="deleteMember()">删除</button>
+          <button type="button" class="btn btn-success btn-sm" ui-sref="projectMember.add">添加</button>
+        </div>
+	</div>
+	<table class="table table-bordered">
+		<thead>
+			<th><input type="checkbox" name=""></th>
+			<th>用户名</th>
+			<th>姓名</th>
+			<th>性别</th>
+			<th>电话</th>
+			<th>邮箱</th>
+			<th>角色</th>
+		</thead>
+		<tbody>
+			<tr bindonce ng-repeat="data in res">
+				<td><input type="checkbox" name="" value="{{data.id}}"></td>
+				<td>{{data.login_user}}</td>
+				<td>{{data.staff_name}}</td>
+				<td>{{data.gender}}</td>
+				<td>{{data.phone}}</td>
+				<td>{{data.mail}}</td>
+				<td>{{data.role_name}}</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
