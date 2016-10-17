@@ -17,9 +17,21 @@
     ];
 
     $scope.init = function(){
+      $(function () {
 
+          //1.初始化Table
+          var oTable = new TableInit();
+          oTable.Init();
+
+          //2.初始化Button的点击事件
+          var oButtonInit = new ButtonInit();
+          oButtonInit.Init();
+
+      });
     };
-
+    $scope.test = function () {
+      console.log('aaa');
+    }
     $scope.queryParams = { 
         login_user:'',
 		staff_name:'',
