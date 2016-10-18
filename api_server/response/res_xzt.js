@@ -1,5 +1,5 @@
 exports.ProjectMemberData = {
-		'total': 200,
+		'total': 130,
 		'rows': [{
 						             // id: '0',
 						             "userName": "admin",

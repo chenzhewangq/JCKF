@@ -15,7 +15,7 @@
       'AngularJS',
       'Karma'
     ];
-
+    $scope.url = "/jckf/project/query";
     // 请求查询参数
     $scope.queryParams = {
       projectName:'', //项目名称
