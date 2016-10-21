@@ -20,8 +20,11 @@
     <link rel="stylesheet" href="styles/sidebar.css">
     <!-- endbuild -->
     <link rel="stylesheet" href="styles/font-awesome/css/font-awesome.min.css">
+
+
+
   </head>
-  <body ng-app="jckfApp" ng-controller='indexCtrl'>
+  <body ng-app="jckfApp" ng-controller='indexCtrl' >
     <!--[if lte IE 8]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
@@ -70,17 +73,19 @@
         </div>
       </div>
 
-      <!--修改密码静态框-->
-        <div class="modal fade" id="myPassword" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+
+        <!--修改密码静态框-->
+        <!-- <div class="modal fade" id="myPasswords" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
           <div class="modal-dialog">
-            <div class="modal-content">
+            <div class="modal-content" style="width: 80%">
               <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal"></button>
                 <h4 class="modal-title" style="text-align: center;color:#337ab7;font-size: 22px;">修改密码</h4>
               </div>
               <div class="modal-body"><form id = "myForm">
                 <form id = "myForm">
-                  <div class="input" style="width: 550px;text-align: center;color: #26354c;font-size: 20px;">
+                  <div class="input" style="text-align: center;color: #26354c;font-size: 20px;">
                     <span>原密码:&nbsp;&nbsp;&nbsp;</span>
                     <input type="password" id="oldPassword" name="oldPassword" 
                           ng-model="params.oldPassword" >
@@ -94,6 +99,41 @@
               </div>
               <div class="modal-footer" style="text-align: center;color: #337ab7">
                  <button id="password" tabindex="0" class="btn btn-primary" role="button" title="提示" text-align: center; data-placement="left" data-content="" ng-click="modifyPassword()" data-trigger="focus">保存</button>
+                 <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="cancel();">取消</button>
+                
+              </div>
+            </div>
+          </div>
+        </div>  -->
+            
+
+
+
+
+      <!--修改密码静态框-->
+        <div class="modal fade" id="myPassword" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content" style="width: 80%">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"></button>
+                <h4 class="modal-title" style="text-align: center;color:#337ab7;font-size: 22px;">修改密码</h4>
+              </div>
+              <div class="modal-body"><form id = "myForm">
+                <form id = "myForm">
+                  <div class="input" style="text-align: center;color: #26354c;font-size: 20px;">
+                    <span>原密码:&nbsp;&nbsp;&nbsp;</span>
+                    <input type="password" id="oldPassword" name="oldPassword" 
+                          ng-model="params.oldPassword" >
+                          <br><br>
+                    <span>新密码:&nbsp;&nbsp;&nbsp;&nbsp;</span><input type="password" id="newPassword" name="newPassword" ng-model="params.newPassword">
+                          <br><br>
+                    <span>确认密码:&nbsp;</span><input type="password"  id ="confirmPassword" name="confirmPassword" ng-model="params.confirmPassword">
+                          <br><br>    
+                  </div>                            
+                </form>
+              </div>
+              <div class="modal-footer" style="text-align: center;color: #337ab7">
+                 <button id="password" tabindex="0" class="btn btn-primary" role="button" title="提示" text-align: center; data-placement="left" data-content="" ng-click="modifyPassword()" data-trigger="focus" style="margin-right: 30px">保存</button>
                  <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="cancel();">取消</button>
                 <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
               </div>
@@ -168,6 +208,16 @@
           $("[data-toggle='popover']").popover();
       }); 
     </script>
+
+
+    <!-- <script>
+    $(function(){
+        $('#myPasswords').modal({
+        show:true,
+        backdrop:true
+        })
+    });
+</script> -->
     <!-- end弹出框JS -->
 </body>
 </html>

@@ -45,27 +45,57 @@ angular.module("jckfApp")
           $('#password').popover('show');
           return;
         }
-
+        if($scope.params.oldPassword !== '' &&$scope.params.newPassword !== ''&&
+          $scope.params.confirmPassword !== ''){
+          if($scope.params.oldPassword ===$scope.params.newPassword ){
+            $scope.click.click = false;
+          $('#password').attr('data-content', '原密码和新密码不能相同')
+          $('#password').popover('show');
+          return;
+          }
+          if($scope.params.newPassword !==$scope.params.confirmPassword ){
+            $scope.click.click = false;
+          $('#password').attr('data-content', '新密码和确认密码不一致')
+          $('#password').popover('show');
+          return;
+          }
+        }
       $http.post('/jckf/user/modifyPassword', $scope.params).then(function(res) {
       	console.log(res)
-        if (res.data.result === 0) {
+        if (res.data.success === 0) {
           // $scope.click.click = true;
 //          $cookies.put('id', moduleId);
           $('#myPassword').modal('hide');
           $('#mainId').modal('show');
-          $scope.modal.modalMessage = res.data.resultMsg;
+          $scope.modal.modalMessage = res.data.message;
           $scope.click.click = false;
           // window.location.href = "/login/login.html" ;
         } else {
-          $('#mainId').modal('show');
-          $scope.getImgCode();
-          $scope.user.imageValue = '';
+          // $('#mainId').modal('show');
+          $('#myPassword').modal('show');
           $scope.click.click = false;
-          $('#password').attr('data-content', res.data.resultMsg)
+          $('#password').attr('data-content', res.data.message)
           $('#password').popover('show');
         }
       });
 
     };
+
+    //登出
+    $scope.logout = function() {
+      $http.get('/jckf/user/logout').then(function(res) {
+        if (res.data.success === 0) {
+          console.log("aaaa");
+          window.location.href = "/login/login.html" ;
+        }
+      });
+    };
+
+    $scope.cancel=function(){
+      $scope.params.oldPassword="";
+      $scope.params.newPassword="";
+      $scope.params.confirmPassword="";
+    }
+
 
 })

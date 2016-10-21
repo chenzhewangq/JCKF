@@ -1,7 +1,7 @@
 ﻿<div class="home-page" ng-init="init()">
 	<div class="home-page-nav">
-		<div><span>用户名：</span><input type="text"></div>
-        <div><span>姓名：</span><input type="text"></div>
+		<div><span>用户名：</span><input type="text" ng-model="queryParams.login_user"></div>
+        <div><span>姓名：</span><input type="text" ng-model="queryParams.staff_name"></div>
 		<div>
           <button type="button" class="btn btn-primary btn-sm" ng-click="queryMemberAdd()">查询</button>
         </div>

@@ -9,18 +9,39 @@
  */
  (function(){
   angular.module('jckfApp')
-  .controller('mainCtrls', ["$scope", "$http", "projectManagement",function ($scope, $http, projectManagement) {
+  .controller('mainCtrls', ["$scope", "$http", "$filter", "projectManagement", function ($scope, $http, $filter, projectManagement) {
     this.awesomeThings = [
       'HTML5 Boilerplate',
       'AngularJS',
       'Karma'
     ];
+
+
+    $scope.test = function () {
+      console.log($("[name='checkbox']:first").prop("checked"))
+      if($("[name='checkbox']:first").prop("checked")){
+        $("[name='checkbox']").prop("checked",true);;
+      }else {
+        $("[name='checkbox']").prop("checked",false);
+      }
+      console.log($('input:checked'))
+    };
+
+    $scope.check = function () {
+      console.log($('input:checked'))
+    }
+
     $scope.url = "/jckf/project/query";
+
+    
+    $scope.queryUlr = "/jckf/project/query";
+
     // 请求查询参数
     $scope.queryParams = {
+      id:'', //项目ID
       projectName:'', //项目名称
       projectDirector:'', //项目负责人
-      status:'1' //项目状态(0: 计划中 1：进行中，2：已结束)
+      status:'' //项目状态(0: 计划中 1：进行中，2：已结束)
     };
 
     // 添加项目传后台参数
@@ -44,7 +65,7 @@
       projectManagement.query($scope.queryParams, function (response) {
         console.log(response);
         if (response.success){
-          $scope.res = response.data.list;
+          $scope.queryList = response.data.list;
         }else{
           $scope.setNoticeMsg("没有查询到数据");
         }
@@ -53,6 +74,8 @@
 
     // 添加项目
     $scope.add = function(){
+      $scope.addParams.startTime = $('#dtp_input2').val();
+      $scope.addParams.endTime = $('#dtp_input3').val();
       projectManagement.add($scope.addParams, function (response) {
         if (response.success){
           $scope.setNoticeMsg("添加成功");
@@ -63,21 +86,44 @@
     };
 
     // 查看项目基本信息
-    $scope.checkDetail = function(){
-      projectManagement.checkDetail($scope.res.projectName, function (response) {
-        if (!response.success) {
-          $scope.setNoticeMsg("查看失败");
+    $scope.checkDetail = function(data){
+          console.log(data);
+          $scope.details = angular.copy(data);
+          $scope.detailId = $scope.details.id;
+          projectManagement.query($scope.detailId, function (response) {
+            console.log(response);
+            if (response.success){
+              $scope.detailsData = response.data.list;
+            }else{
+              $scope.setNoticeMsg("没有查询到数据");
+            }
+          });
+    };
+
+    // 编辑显示项目基本信息
+    $scope.modify = function(data){
+      console.log(data);
+      $scope.beforeData = angular.copy(data);
+      $scope.projectId = $scope.beforeData.id;
+      projectManagement.query($scope.projectId, function (response) {
+        console.log(response);
+        if (response.success){
+          $scope.modifyData = response.data.list;
         }else{
-          $scope.details = response.data.list;
+          $scope.setNoticeMsg("没有查询到数据");
         }
       });
     };
-
-    // 编辑项目基本信息
-    $scope.modify = function(){
-      projectManagement.modify($scope.modifyData, function(response){
+    // 保存编辑后的项目基本信息
+    $scope.saveModify = function(data){
+      $scope.saveModifyData = angular.copy(data);
+      $scope.saveModifyData.startTime = $('#dtp_input4').val();
+      $scope.saveModifyData.endTime = $('#dtp_input5').val();
+      console.log($scope.saveModifyData);
+      projectManagement.modify($scope.saveModifyData, function(response){
         if (response.success) {
-          $scope.modify = response.data.list;
+          $scope.setNoticeMsg("修改成功");
+          $scope.query();
         }else {
           $scope.setNoticeMsg("修改失败");
         }

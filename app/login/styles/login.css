@@ -9,7 +9,7 @@ body{
   }
   #login{
     background:#8b96a5;
-    width:350px;
+    width:440px;
     margin:30px auto 20px;
     padding:20px 50px;
     text-align:center;
@@ -23,8 +23,8 @@ body{
     position:relative;
   }
   #login>div>input{
-    width:90%;
-    height:40px;
+    /*width:90%;*/
+    height:45px;
     font-size:22px;
     padding-left: 45px;
   }
@@ -37,8 +37,8 @@ body{
     color: white;
     background: #8b96a5;
     font-size:22px;
-    width: 100%;
-    height: 40px;
+    /*width: 90%;*/
+    height: 50px;
     border: 1px solid black;
     border-radius: 10px;
   }

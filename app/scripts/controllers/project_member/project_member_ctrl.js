@@ -1,4 +1,4 @@
-'use strict';
+﻿'use strict';
 
 /**
  * @ngdoc function
@@ -15,6 +15,24 @@
       'AngularJS',
       'Karma'
     ];
+	
+	/** 编辑方法*/
+	$scope.edit = function(){
+		
+	}
+	
+	/** 保存方法*/
+	$scope.save = function(){
+		alert("保存成功");
+	}
+	
+	/** 取消方法 */
+	$scope.cancle = function(){
+		//重新查询
+		$scope.queryMember();
+		alert("取消成功并重新查询完成");
+	}
+
 
     $scope.init = function(){
       $(function () {
@@ -39,73 +57,27 @@
     };
 
 
-    $scope.queryMember = function() {
 
-  		// projectMemberService.query($scope.queryParams,function(res){
-  			
-  			
-  		// 		$scope.res = res;
-  			
-  		// });
-      // oTable.init();
-      
-      // var a = {
-      //   limit: 10,   //页面大小
-      //   offset: 1,  //页码
-      //   userName: $("#member_search_userName").val(),
-      //   name: $("#member_search_name").val(),
-      //   role: $("#member_search_role").val()
-      // };
-      
-      $('#tb_departments').bootstrapTable('refresh');  
+    $scope.init = function(){
+
     };
 
- 
-var daList = $scope.yhctlModelOptions = [ 
-                              {roleId: 1, roleName: '限定用户'}, 
-                              {roleId: 2, roleName: "限定商家"}, 
-                              {roleId: 3, roleName: "限定使用次数"},
-                              {roleId: 4, roleName: "限定药品"}, 
-                              {roleId: 5, roleName: "与其它优惠共享"}];
+    $scope.queryParams = { 
+        login_user:'',
+		staff_name:'',
+		role_name:''
+    };
 
-  console.log(daList);
+
+    $scope.queryMember = function() {
+      $('#tb_departments').bootstrapTable('refresh');  
+    };
       
 
 	$scope.deleteMember = function() {
 		var check = $('#tb_departments').bootstrapTable('getSelections');
-    console.log(check);
-  }
-	// $scope.deleteMemeber = function() {
-
-
-
-    //角色全选和反选
- //    $scope.proCheckbox = function(type,daList,index){
- //      var roleDaIds = [];
- //      var roleDaNames = [];
- //      if('one'===type){
- //        daList[index].checkbox = !daList[index].checkbox;
- //        var mar = 0;
- //        for(var i=0;i<daList.length;i++){
- //        if(daList[i].checkbox){
- //          roleDaIds.push(daList[i].roleId);
- //          roleDaNames.push(daList[i].roleName);
- //          mar++;
- //        }
- //        }
- //      }
- //         var a = $scope.roleId = roleDaIds.join(',');
- //          $scope.roleDataNames = roleDaNames.join(',');
-        
- //      console.log(a);
-     
- //    }
+		console.log(check);
+    }
  
-
-	// $scope.deleteMemeber = function() {
-
-		
-	// }
-	
    }]);
 })();

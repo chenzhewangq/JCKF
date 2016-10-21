@@ -1,4 +1,4 @@
-(function () {
+﻿(function () {
   angular.module('jckfApp.projectMember', [])
 	.factory('projectMemberService',  ["Restangular", function (Restangular) {
 		return {

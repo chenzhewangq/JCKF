@@ -1,10 +1,15 @@
+<style>
+  .ng-invalid {
+    border-color: red;
+  }
+</style>
 <div class="home-page" ng-init="initPage()">
       <div class="home-page-nav">
-        <div><span>项目名称：</span><input type="text"></div>
-        <div><span>项目经理：</span><input type="text"></div>
+        <div><span>项目名称：</span><input type="text" style="color: black" ng-model="queryParams.projectName"></div>
+        <div><span>项目经理：</span><input type="text" style="color: black" ng-model="queryParams.projectDirector"></div>
         <div><span>项目状态：</span>
         <div class="dropdown">
-          <select class="btn btn-default dropdown-toggle btn-sm" style="width: 160px; height: 32px;"  ng-model="queryParams.status"> 
+          <select class="btn btn-default dropdown-toggle btn-sm" style="width: 160px; height: 32px;" ng-model="queryParams.status"> 
             <option value="">全部</option>
             <option value="0">计划中</option> 
             <option value="1">进行中</option> 
@@ -19,7 +24,7 @@
           </button>
         </div>
       </div>
-      <table class="table table-bordered">
+      <table class="table table-bordered" id="project-table">
         <thead>
           <th>项目名称</th>
           <th>项目编号</th>
@@ -30,24 +35,24 @@
           <th>操作</th>
         </thead>
         <tbody>
-          <tr bindonce ng-repeat="data in res">
-            <td style="cursor: pointer;" data-toggle="modal" data-target="#detailModal" ng-click="checkDetail(data.projectName)">
+          <tr bindonce ng-repeat="data in queryList">
+            <td style="cursor: pointer;" data-toggle="modal" data-target="#detailModal" ng-click="checkDetail(data)">
               <a>{{data.projectName}}</a>
             </td>
             <td>{{data.projectCode}}</td>
             <td>{{data.startTime}}</td>
             <td>{{data.endTime}}</td>
             <td>{{data.projectDirector}}</td>
-            <td>{{data.status}}</td>
-            <td><a href="#" ui-sref="projectManage"><span>进入项目</span></a>
+            <td>{{data.status | projectManagementStatus}}</td>
+            <td>
+                <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modifyModal" ng-click="modify(data)">编辑</button>
+                <a href="#" ui-sref="projectManage"><span>进入项目</span></a>
 				        <a href="#" ui-sref="projectMember"><span>项目人员分配</span></a>
 			      </td>
           </tr>
         </tbody>
       </table>
-      
-      <page limit="10" current-page="1" total="500" data="res" page-url="url" params="queryParams"></page>
-
+      <page limit="10" current-page="1" params="queryParams" total="500" data="queryList" page-url="queryUlr"></page>
       <!-- 添加项目 -->
       <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -56,39 +61,29 @@
             <h4 class="modal-title" id="myModalLabel">添加项目</h4>
           </div>
               <div class="modal-body">
-                <form class="form-horizontal" role="form">
+                <form class="form-horizontal" role="form" novalidate name="myForm">
                   <div class="form-group">
-                    <label for="inputEmail3" class="col-sm-2 control-label" style="margin-left: 90px; width: 100px;">项目名称：</label>
+                    <label for="inputEmail3" class="col-sm-2 control-label" style="margin-left: 90px; width: 110px;">项目名称：</label>
                     <div class="col-sm-5">
-                      <input type="text" class="form-control" id="inputEmail3" placeholder="项目名称" ng-model="addParams.projectName">
+                      <input type="text" class="form-control" id="inputEmail3" name="inputEmail3" placeholder="项目名称" ng-model="addParams.projectName" ng-maxlength="10">
+                      <span style="color: red"ng-show="myForm.inputEmail3.$dirty && myForm.inputEmail3.$invalid">不能为空且不超过10个字符</span>
                     </div>
                   </div>
                   <div class="form-group">
-                    <label for="inputPassword3" class="col-sm-2 control-label" style="margin-left: 90px; width: 100px;">项目编码：</label>
+                    <label for="inputPassword3" class="col-sm-2 control-label" style="margin-left: 90px; width: 110px;">项目编码：</label>
                     <div class="col-sm-5">
-                      <input type="text" class="form-control" id="inputPassword3" placeholder="项目编码" ng-model="addParams.projectCode">
+                      <input type="text" class="form-control" id="inputPassword3" placeholder="项目编码" ng-model="addParams.projectCode" maxlength="20">
                     </div>
                   </div>
                   <div class="form-group">
-                    <label for="inputEmail3" class="col-sm-2 control-label" style="margin-left: 90px; width: 100px;">项目经理：</label>
+                    <label for="inputEmail3" class="col-sm-2 control-label" style="margin-left: 90px; width: 110px;">项目经理：</label>
                     <div class="col-sm-5">
-                      <input type="text" class="form-control" id="inputEmail3" placeholder="项目经理" ng-model="addParams.projectDirector">
+                      <input type="text" class="form-control" id="inputEmail3" placeholder="项目经理" ng-model="addParams.projectDirector" maxlength="10">
                     </div>
                   </div>
+                  
                   <div class="form-group">
-                    <label for="inputEmail3" class="col-sm-2 control-label" style="margin-left: 90px; width: 100px;">开始时间：</label>
-                    <div class="col-sm-5">
-                      <input type="date" class="form-control" id="inputEmail3" ng-model="addParams.startTime">
-                    </div>
-                  </div> 
-                  <div class="form-group">
-                    <label for="inputEmail3" class="col-sm-2 control-label" style="margin-left: 90px; width: 100px;">结束时间：</label>
-                    <div class="col-sm-5">
-                      <input type="date" class="form-control" id="inputEmail3" ng-model="addParams.endTime">
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label for="inputEmail3" class="col-sm-2 control-label" style="margin-left: 90px; width: 100px;">项目状态：</label>
+                    <label for="inputEmail3" class="col-sm-2 control-label" style="margin-left: 90px; width: 110px;">项目状态：</label>
                     <div class="dropdown">
                       <select class="btn btn-default dropdown-toggle btn-sm" style="width: 219px; height: 32px; margin-left: 15px;" ng-model="addParams.status" >
                         <option value="0">计划中</option> 
@@ -98,20 +93,39 @@
                     </div>
                   </div>
                   <div class="form-group">
-                    <label for="inputPassword3" class="col-sm-2 control-label" style="margin-left: 90px; width: 100px;">工单编号：</label>
+                    <label for="inputPassword3" class="col-sm-2 control-label" style="margin-left: 90px; width: 110px;">工单编号：</label>
                     <div class="col-sm-5">
-                      <input type="text" class="form-control" id="inputPassword3" placeholder="工单编号" ng-model="addParams.orderId">
+                      <input type="text" class="form-control" id="inputPassword3" placeholder="工单编号" ng-model="addParams.orderId" maxlength="20">
                     </div>
                   </div>
                   <div class="form-group">
-                    <label for="inputEmail3" class="col-sm-2 control-label" style="margin-left: 90px; width: 100px;">项目描述：</label>
+                    <label for="inputEmail3" class="col-sm-2 control-label" style="margin-left: 90px; width: 110px;">项目描述：</label>
                     <div class="col-sm-5">
-                      <input type="textarea" class="form-control" id="inputEmail3" placeholder="项目描述" ng-model="addParams.projectDesc">
+                      <!-- <input type="textarea" rows="4" class="form-control" id="inputEmail3" placeholder="项目描述" ng-model="addParams.projectDesc"> -->
+                      <textarea cols="40" rows="4" class="form-control" id="inputEmail3" placeholder="项目描述" ng-model="addParams.projectDesc" maxlength="50"></textarea>
                     </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="inputEmail3" class="col-sm-2 control-label" style="margin-left: 90px; width: 110px;">开始时间：</label>
+                      <div class="input-group date form_date col-md-5" data-date="" data-date-format="dd MM yyyy" data-link-field="dtp_input2" data-link-format="yyyymmdd">
+                      <input class="form-control" size="16" type="text" value="" readonly  >
+                          <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                          <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                      </div>
+                      <input type="hidden" id="dtp_input2" value=""/>
+                  </div> 
+                  <div class="form-group">
+                    <label for="inputEmail3" class="col-sm-2 control-label" style="margin-left: 90px; width: 110px;">结束时间：</label>
+                    <div class="input-group date form_date col-md-5" data-date="" data-date-format="dd MM yyyy" data-link-field="dtp_input3" data-link-format="yyyymmdd">
+                      <input class="form-control" size="16" type="text" value="" readonly  >
+                          <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                          <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                      </div>
+                      <input type="hidden" id="dtp_input3" value=""/>
                   </div>  
                 </form>
                 <div class="modal-footer">
-                  <button type="submit" class="btn btn-primary btn-sm" ng-click="add()">保存</button>
+                  <button type="submit" class="btn btn-primary btn-sm" ng-click="add()" data-dismiss="modal">保存</button>
                   <button type="button" class="btn btn-success btn-sm" data-dismiss="modal" style="margin-left: 20px;">取消</button>
                 </div>  
               </div>
@@ -127,41 +141,81 @@
             <h4 class="modal-title" id="myModalLabel">查看项目基本信息</h4>
           </div>
               <div class="modal-body">
+                <div class="table-responsive">
+                  <table class="table table-bordered" style="color: black;">
+                    <tr>
+                      <td>项目名称：</td>
+                      <td>{{detailsData.projectName}}</td>
+                    </tr>
+                    <tr>
+                      <td>项目编号：</td>
+                      <td>{{detailsData.projectCode}}</td>
+                    </tr>
+                    <tr>
+                      <td>项目经理：</td>
+                      <td>{{detailsData.projectDirector}}</td>
+                    </tr>
+                    <tr>
+                      <td>开始时间：</td>
+                      <td>{{detailsData.startTime}}</td>
+                    </tr>
+                    <tr>
+                      <td>结束时间：</td>
+                      <td>{{detailsData.endTime}}</td>
+                    </tr>
+                    <tr>
+                      <td>项目状态：</td>
+                      <td>{{detailsData.status | projectManagementStatus}}</td>
+                    </tr>
+                    <tr>
+                      <td>工单编号：</td>
+                      <td>{{detailsData.orderId}}</td>
+                    </tr>
+                    <tr>
+                      <td>项目描述：</td>
+                      <td>{{detailsData.projectDesc}}</td>
+                    </tr>
+                  </table>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-success btn-sm" data-dismiss="modal" style="margin-left: 20px;">返回</button>
+                </div>  
+              </div>
+        </div>
+        </div>
+      </div> 
+
+      <!-- 编辑项目 --> 
+      <div class="modal fade" id="modifyModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title" id="myModalLabel">添加项目</h4>
+          </div>
+              <div class="modal-body">
                 <form class="form-horizontal" role="form">
                   <div class="form-group">
-                    <label for="inputEmail3" class="col-sm-2 control-label" style="margin-left: 90px; width: 100px;">项目名称：</label>
+                    <label for="inputEmail3" class="col-sm-2 control-label" style="margin-left: 90px; width: 110px;">项目名称：</label>
                     <div class="col-sm-5">
-                      <input type="text" class="form-control" id="inputEmail3" placeholder="项目名称" ng-model="details.projectName">
+                      <input type="text" class="form-control" id="inputEmail3" placeholder="项目名称" ng-model="modifyData.projectName" maxlength="50">
                     </div>
                   </div>
                   <div class="form-group">
-                    <label for="inputPassword3" class="col-sm-2 control-label" style="margin-left: 90px; width: 100px;">项目编码：</label>
+                    <label for="inputPassword3" class="col-sm-2 control-label" style="margin-left: 90px; width: 110px;">项目编码：</label>
                     <div class="col-sm-5">
-                      <input type="text" class="form-control" id="inputPassword3" placeholder="项目编码" ng-model="details.projectCode">
+                      <input type="text" class="form-control" id="inputPassword3" placeholder="项目编码" ng-model="modifyData.projectCode" maxlength="20">
                     </div>
                   </div>
                   <div class="form-group">
-                    <label for="inputEmail3" class="col-sm-2 control-label" style="margin-left: 90px; width: 100px;">项目经理：</label>
+                    <label for="inputEmail3" class="col-sm-2 control-label" style="margin-left: 90px; width: 110px;">项目经理：</label>
                     <div class="col-sm-5">
-                      <input type="text" class="form-control" id="inputEmail3" placeholder="项目经理" ng-model="details.projectDirector">
+                      <input type="text" class="form-control" id="inputEmail3" placeholder="项目经理" ng-model="modifyData.projectDirector" maxlength="10">
                     </div>
                   </div>
                   <div class="form-group">
-                    <label for="inputEmail3" class="col-sm-2 control-label" style="margin-left: 90px; width: 100px;">开始时间：</label>
-                    <div class="col-sm-5">
-                      <input type="date" class="form-control" id="inputEmail3" ng-model="details.startTime">
-                    </div>
-                  </div> 
-                  <div class="form-group">
-                    <label for="inputEmail3" class="col-sm-2 control-label" style="margin-left: 90px; width: 100px;">结束时间：</label>
-                    <div class="col-sm-5">
-                      <input type="date" class="form-control" id="inputEmail3" ng-model="details.endTime">
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label for="inputEmail3" class="col-sm-2 control-label" style="margin-left: 90px; width: 100px;">项目状态：</label>
+                    <label for="inputEmail3" class="col-sm-2 control-label" style="margin-left: 90px; width: 110px;">项目状态：</label>
                     <div class="dropdown">
-                      <select class="btn btn-default dropdown-toggle btn-sm" style="width: 219px; height: 32px; margin-left: 15px;" ng-model="details.status" >
+                      <select class="btn btn-default dropdown-toggle btn-sm" style="width: 219px; height: 32px; margin-left: 15px;" ng-model="modifyData.status" >
                         <option value="0">计划中</option> 
                         <option value="1">进行中</option> 
                         <option value="2">已结束</option> 
@@ -169,20 +223,40 @@
                     </div>
                   </div>
                   <div class="form-group">
-                    <label for="inputPassword3" class="col-sm-2 control-label" style="margin-left: 90px; width: 100px;">工单编号：</label>
+                    <label for="inputPassword3" class="col-sm-2 control-label" style="margin-left: 90px; width: 110px;">工单编号：</label>
                     <div class="col-sm-5">
-                      <input type="text" class="form-control" id="inputPassword3" placeholder="工单编号" ng-model="details.orderId">
+                      <input type="text" class="form-control" id="inputPassword3" placeholder="工单编号" ng-model="modifyData.orderId" maxlength="20">
                     </div>
                   </div>
                   <div class="form-group">
-                    <label for="inputEmail3" class="col-sm-2 control-label" style="margin-left: 90px; width: 100px;">项目描述：</label>
+                    <label for="inputEmail3" class="col-sm-2 control-label" style="margin-left: 90px; width: 110px;">项目描述：</label>
                     <div class="col-sm-5">
-                      <input type="textarea" class="form-control" id="inputEmail3" placeholder="项目描述" ng-model="details.projectDesc">
+                      <!-- <input type="textarea" class="form-control" id="inputEmail3" placeholder="项目描述" ng-model="modifyData.projectDesc"> -->
+                      <textarea cols="40" rows="4" class="form-control" id="inputEmail3" placeholder="项目描述" ng-model="modifyData.projectDesc" maxlength="50"></textarea>
                     </div>
-                  </div>  
+                  </div> 
+                  <div class="form-group">
+                    <label for="inputEmail3" class="col-sm-2 control-label" style="margin-left: 90px; width: 110px;">开始时间：</label>
+                      <div class="input-group date form_date col-md-5" data-date="" data-date-format="dd MM yyyy" data-link-field="dtp_input4" data-link-format="yyyymmdd">
+                        <input class="form-control" size="16" type="text" value="" ng-model="modifyData.startTime" readonly >
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                      </div>
+                      <input type="hidden" id="dtp_input4" value=""/>
+                  </div> 
+                  <div class="form-group">
+                    <label for="inputEmail3" class="col-sm-2 control-label" style="margin-left: 90px; width: 110px;">结束时间：</label>
+                      <div class="input-group date form_date col-md-5" data-date="" data-date-format="dd MM yyyy" data-link-field="dtp_input5" data-link-format="yyyymmdd">
+                      <input class="form-control" size="16" type="text" value="" ng-model="modifyData.endTime" readonly  >
+                          <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                          <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                      </div>
+                      <input type="hidden" id="dtp_input5" value=""/>
+                  </div> 
                 </form>
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-success btn-sm" data-dismiss="modal" style="margin-left: 20px;">返回</button>
+                  <button type="submit" class="btn btn-primary btn-sm" ng-click="saveModify(modifyData)" data-dismiss="modal">保存</button>
+                  <button type="button" class="btn btn-success btn-sm" data-dismiss="modal" style="margin-left: 20px;">取消</button>
                 </div>  
               </div>
         </div>
@@ -190,3 +264,40 @@
       </div>  
 
 </div>
+
+
+
+<script type="text/javascript">
+        $('.form_datetime').datetimepicker({
+            //language:  'fr',
+            weekStart: 1,
+            todayBtn:  1,
+            autoclose: 1,
+            todayHighlight: 1,
+            startView: 2,
+            forceParse: 0,
+            showMeridian: 1
+        });
+        $('.form_date').datetimepicker({
+            language:  'fr',
+            weekStart: 1,
+            todayBtn:  1,
+            autoclose: 1,
+            todayHighlight: 1,
+            startView: 2,
+            minView: 2,
+            forceParse: 0
+        });
+        $('.form_time').datetimepicker({
+            language:  'fr',
+            weekStart: 1,
+            todayBtn:  1,
+            autoclose: 1,
+            todayHighlight: 1,
+            startView: 1,
+            minView: 0,
+            maxView: 1,
+            forceParse: 0
+        });
+    </script>
+

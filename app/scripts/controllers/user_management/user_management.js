@@ -15,60 +15,163 @@ angular.module('jckfApp.userManagement')
       'Karma'
     ];
 
-      $scope.initPage = function(){
-      //初始化日期控件
+    $scope.pageUrl="/jckf/user_management/userQuery";
 
-    
+    $scope.checkAll = function (){
+      console.log($("[name='checkbox']:first").prop("checked"))
+      if($("[name='checkbox']:first").prop("checked")){
+        $("[name='checkbox']").prop("checked",true);;
+      }else {
+        $("[name='checkbox']").prop("checked",false);
+      }
+      console.log($('input:checked'))
+    }
+
+    $scope.check = function (id){
+      console.log($("[name='checkbox'][value="+id+"]").prop("checked"))
+      if($("[name='checkbox'][value="+id+"]").prop("checked")){
+        $("[name='checkbox'][value="+id+"]").prop("checked", true);
+        
+      }else {
+        $("[name='checkbox'][value="+id+"]").prop("checked", false);
+         if($("[name='checkbox']:first").prop("checked")){
+          $("[name='checkbox']:first").prop("checked", false);
+        }  
+      }
+     
+    }
+
+      $scope.initPage = function(){
+      //初始化
       $scope.userQuery();     //调用查询方法
     };
-
-      $scope.queryParams = {
-          login_user:'',
-          staff_name:'',
-          gender:'',
-          phone:'',
-          mail:'',
-          time:'',
-          expire_time:''
-
-        };
-         $scope.flag = {
+    $scope.flag = {
             modalShow: false,  //显示弹出的模态框
             modalMessage: '',   //弹出的提示信息,
           };
-      $scope.userQuery = function() {
-        $http.post('/jckf/user/userQuery', $scope.queryParams).success(function(res) {
-           console.log(res);
-          if (res.success){
-             $scope.res = res.data.list;
-          }else{
-            $scope.setNoticeMsg("没有查询到数据");
+    //查询
+      $scope.queryParams = {
+          loginUser:'',
+          staffName:'',
+          gender:'',
+          phone:'',
+          mail:'',
+          createTime:'',
+          expireTime:''
+        };
+        //查询参数
+        $scope.params2 = {
+          loginUser:'',
+          staffName:''
+        };
+        //添加参数
+        $scope.Params = {
+          id:'',
+          loginUser:'',
+          staffName:'',
+          gender:'',
+          phone:'',
+          mail:'',
+          createTime:'',
+          expireTime:''
+        }
+         $scope.Params.createTime = getNowFormatDate();    
+         function getNowFormatDate() {
+
+              var date = new Date();
+              var seperator1 = "-";
+              var seperator2 = ":";
+              var month = date.getMonth() + 1;
+              var strDate = date.getDate();
+              if (month >= 1 && month <= 9) {
+                  month = "0" + month;
+              }
+              if (strDate >= 0 && strDate <= 9) {
+                  strDate = "0" + strDate;
+              }
+              var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate
+                      + " " + date.getHours() + seperator2 + date.getMinutes()
+                      + seperator2 + date.getSeconds();
+              return currentdate;
           }
-           console.log('success');
-        });
+
+       /* //修改参数
+        $scope.modifyParams = { 
+          staffName:'',
+          gender:'',
+          phone:'',
+          mail:'',
+          expire_time:''
+        }*/
+        //删除参数
+        $scope.deleteParams = {
+          id:''
+        }
+
+      $scope.userQuery = function() {
+        userManagementServer.query($scope.queryParams, function (res){
+            //console.log(res);
+                     if (res.success){
+                        $scope.res = res.data.list;
+                     }else{
+                       $scope.setNoticeMsg("没有查询到数据");
+                     }
+                   //   console.log('success');
+        })  
+      };
+      $scope.addUser = function(params){
+          userManagementServer.addUser($scope.Params, function (res){
+              if (res.success) {
+                $scope.userQuery();
+              }
+              else{
+                $scope.setNoticeMsg("添加失败");
+              }
+
+         })
+        
+          
+           
+      };
+      $scope.modifyUser = function(params){
+        userManagementServer.modifyUser($scope.modifyParams,function(res){
+          if (res.success) {
+            $scope.userQuery();
+          }else{
+            $scope.setNoticeMsg("修改失败");
+          }
+        })
+      };
+      $scope.deleteUser = function(id){
+        
+        userManagementServer.deleteUser($scope.deleteParams,function(res){
+          if (res.success) {
+            $scope.userQuery();
+          }else{
+            $scope.setNoticeMsg("删除失败");
+          }
+        })
       };
 
-      /*$scope.addUser = function(){
-        $http.post('/jckf/user/addUser', $scope.queryParams).success(function(res) {
-           $scope.flag.modalShow=false;
-           if (document.getElementById('login_user').value.length==0) {
-              $scope.flag.modalMessage = "请输入用户名！"；
-              $scope.flag.modalShow = true;
+//直接点添加打开模态框
+    $scope.restA = function(){
+      $('#restPasswordModal').modal('show');//显示添加权限的模态框
+     
+    }
+      $scope.restPassword = function(){
+        userManagementServer.restPassword($scope.Params,function(res){
 
-           };
-           else if (document.getElementById('staff_name').value.length==0) {
-              $scope.flag.modalShow=false;
-              if (document.getElementById('staff_name').value.length==0) {
-              $scope.flag.modalMessage = "请输入姓名！"；
-              $scope.flag.modalShow = true;
-           };
-           else if (document.getElementById('gender').value.length==0) {
-              $scope.flag.modalShow=false;
-              if (document.getElementById('gender').value.length==0) {
-              $scope.flag.modalMessage = "请选择性别！"；
-              $scope.flag.modalShow = true;
-           };
-        });
-      };*/
+        })
+      };
+      //清空模态框
+      $scope.cancel = function(){
+        
+         $scope.Params.loginUser = '';
+         $scope.Params.staffName = '';
+         $scope.Params.phone = '';
+         $scope.Params.mail = '';
+         $scope.Params.expireTime = ''
+        
+      };
       
   }]);
