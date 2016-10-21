@@ -1,0 +1,15 @@
+<nav>
+	<div>
+		<span>显示第 {{firstNum}} 到第 {{secondNum}} 条记录，总共 {{total}} 条记录</span>
+		<span>每页显示</span>
+		<select ng-change="changeLimit();" ng-model="params.selectCount" style="width:60px;height:32px;padding:0.25rem;"
+		        ng-options="p for p in pageSizeList">
+		</select>
+		<span>条</span>
+	</div>
+  <ul class="pagination">
+    <li ng-repeat="pageno in pages track by $index" ng-class="{'disabled':pageno=='...', 'active':pageno==params.currentPage }" >
+    	<a href="" ng-click="setCurrentPage(pageno)">{{pageno}}</a>
+    </li>
+  </ul>
+</nav>

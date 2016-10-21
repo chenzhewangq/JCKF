@@ -1,0 +1,47 @@
+﻿'use strict';
+
+/**
+ * @ngdoc function
+ * @name integratedDevApp.controller:MainCtrl
+ * @description
+ * # MainCtrl
+ * Controller of the integratedDevApp
+ */
+(function () {
+  angular.module('jckfApp.projectMember')
+  .controller('projectMemberCtrls',  ["$scope", "$http", "projectMemberService", "$stateParams",function ($scope, $http, projectMemberService, $stateParams) {
+    this.awesomeThings = [
+      'HTML5 Boilerplate',
+      'AngularJS',
+      'Karma'
+    ];
+	
+	/** 编辑方法*/
+	$scope.edit = function(){
+		
+	}
+	
+	/** 保存方法*/
+	$scope.save = function(){
+		alert("保存成功");
+	}
+	
+	/** 取消方法 */
+	$scope.cancle = function(){
+		//重新查询
+		$scope.queryMember();
+		alert("取消成功并重新查询完成");
+	}
+
+    $scope.queryMember = function() {
+      $('#tb_departments').bootstrapTable('refresh');  
+    };
+      
+
+	$scope.deleteMember = function() {
+		var check = $('#tb_departments').bootstrapTable('getSelections');
+		console.log(check);
+    }
+ 
+   }]);
+})();

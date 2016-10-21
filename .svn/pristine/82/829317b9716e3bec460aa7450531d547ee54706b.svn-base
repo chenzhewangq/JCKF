@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>登陆页面</title>
+	<link rel="stylesheet" type="text/css" href="/bower_components/bootstrap/dist/css/bootstrap.css">
+	<link rel="stylesheet" type="text/css" href="./styles/login.css">
+
+</head>
+<body ng-app="loginApp" ng-controller="loginCtrl">
+
+	<div id="logo">
+	  <h1 style="text-align: left;"><img src="../images/logo_04.png"></h1>
+	  <h1 style="text-align: center;">中国移动交易业务支撑部</h1>
+	  <h1 style="text-align: center;">集成开发系统登录平台</h1>
+
+	 <!-- 提示弹出框 -->
+	 <div class="modal fade" id="mainId" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document" style="width:250px;font-size:1.2em;">
+        <div class="modal-content">
+          <div class="modal-header" style="border:none;">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">提示</h4>
+          </div>
+          <div class="modal-body lh-modal">{{modal.modalMessage}}</div>
+          <div class="modal-footer lh-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal" style="color:#1EAAF1;">确认</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    	<!--修改密码静态框-->
+        <div class="modal fade" id="myPassword" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content" style="width: 80%">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"></button>
+                <h4 class="modal-title" style="text-align: center;color:#337ab7;font-size: 22px;">修改密码</h4>
+              </div>
+              <div class="modal-body"><form id = "myForm">
+                <form id = "myForm">
+                  <div class="input" style="text-align: center;color: #26354c;font-size: 20px;">
+                    <span>原密码:&nbsp;&nbsp;&nbsp;</span>
+                    <input type="password" id="oldPassword" name="oldPassword" 
+                          ng-model="params.oldPassword" >
+                          <br><br>
+                    <span>新密码:&nbsp;&nbsp;&nbsp;&nbsp;</span><input type="password" id="newPassword" name="newPassword" ng-model="params.newPassword">
+                          <br><br>
+                    <span>确认密码:&nbsp;</span><input type="password"  id ="confirmPassword" name="confirmPassword" ng-model="params.confirmPassword">
+                          <br><br>    
+                  </div>                            
+                </form>
+              </div>
+              <div class="modal-footer" style="text-align: center;color: #337ab7">
+                 <button id="password" tabindex="0" class="btn btn-primary" role="button" title="提示" text-align: center; data-placement="left" data-content="" ng-click="modifyPassword()" data-trigger="focus" style="margin-right: 30px">保存</button>
+                 <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="cancel();">取消</button>
+                <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+              </div>
+            </div><!-- /.modal-content -->
+          </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->  
+
+	  <form name="myForm" >
+	  <div id="login">
+	  <div id="user">
+	    <img src="../images/01.png">
+	    <input type="text" placeholder="账号" ng-model="user.loginUser" class="form-control" maxlength="15" >
+	  </div>
+	  <div id="password">
+	  <img src="../images/02.png">
+	  <input type="password" placeholder="密码" ng-model="user.password" class="form-control"  maxlength="15" >
+	  </div>
+
+	  <div>
+	  <div style="margin-bottom: 20px;font-size: 18px;margin-right: 15px;">
+	    验证码:
+	    &nbsp;&nbsp;&nbsp;
+	    <input type="text" ng-model="user.imageValue" style="width:90px;height: 35px;margin-left: 5px;" maxlength="4">
+	    <img id="getCode" src="" alt="验证码" style="margin-right: 5px"/>
+	    <a ng-click="getImgCode();" style=" font-size:20px; cursor:pointer;color:#333" >刷新</a>
+	  </div>
+	  <button class="btn btn-prim ary btn-lg btn-block" ng-disabled="click.click" ng-click="login()" data-toggle="modal">登录</button>
+	  </div>
+	  </div>
+	  </form>
+	</div>
+	
+ 	<script src="/bower_components/jquery/dist/jquery.js"></script>
+    <script src="/bower_components/angular/angular.js"></script>
+    <script src="/bower_components/bootstrap/dist/js/bootstrap.js"></script>
+
+    <script src="./controllers/login_ctrl.js"></script>
+</body>
+</html>
