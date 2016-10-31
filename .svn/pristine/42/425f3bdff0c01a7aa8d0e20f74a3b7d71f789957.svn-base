@@ -1,0 +1,182 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <!-- build:css(.) styles/vendor.css -->
+    <!-- bower:css -->
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
+    <!-- endbower -->
+    <!-- endbuild -->
+    <!-- build:css(.tmp) styles/main.css -->
+    <link rel="stylesheet" type="text/css" href="styles/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="styles/common/bootstrap-datetimepicker.min.css">
+    <link rel="stylesheet" href="styles/common/bootstrap-table.css">
+	<link rel="stylesheet" href="styles/common/bootstrap-editable.css">
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/home_page.css">
+    <link rel="stylesheet" href="styles/sidebar.css">
+    <!-- endbuild -->
+    <link rel="stylesheet" href="styles/font-awesome/css/font-awesome.min.css">
+    <style type="text/css">
+      .popover {
+        color: red;
+      }
+    </style>
+
+
+  </head>
+  <body ng-app="jckfApp" ng-controller='indexCtrl' >
+    <!--[if lte IE 8]>
+      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+    <div class="percent">
+      <header class="headerself clearfix">
+        <div id="header-bck"></div>
+        <img class="header_img" src="images/logo_04.png" alt="中国移动">
+        <nav class="header_nav clearfix">
+          <ul class="clearfix">
+            <li><a class="header_btn" href="#" ui-sref="main"><b>项目管理</b></a></li>
+            <li><a class="header_btn" href="#" ui-sref="userManage"><b>用户管理</b></a></li>
+            <li><a class="header_btn" href="#" ui-sref="logManagement"><b>日志管理</b></a></li>
+            <li><a class="header_btn" href="#" ui-sref="roleManage"><b>角色管理</b></a></li>
+          </ul>
+        </nav>
+        <div class="header_sign_in">
+          <ul class="clearfix">
+            <li><a class="header-btn-sign" href="#" ng-click="logout();"><i class="icon-off" style="margin-right: 5px;"></i>退出</a></li>
+            <li style="color: white;"> | </li>
+
+            <li><a class="header-btn-sign" href="#" data-toggle="modal" data-target="#myPassword"><i class="icon-user-md" style="margin-right: 5px;"></i>修改密码</a></li>
+
+          </ul>
+        </div>
+      </header>
+
+    
+      <!-- <div class="percent"> -->
+      <div ui-view style="height: 100%; width: 100%" class="clearfix"></div>
+      <!-- </div> -->
+    
+      <!-- 弹出框 -->
+      <div class="modal fade" id="mainId" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document" style="width:250px;font-size:1.2em;">
+          <div class="modal-content">
+            <div class="modal-header" style="border:none;">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title" id="myModalLabel">提示</h4>
+            </div>
+            <div class="modal-body lh-modal">{{modal.modalMessage}}</div>
+            <div class="modal-footer lh-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal" style="color:#1EAAF1;" 
+            onclick="window.location.href = '/login/login.html' ">确认</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!--修改密码静态框-->
+        <div class="modal fade" id="myPassword" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content" style="width: 80%">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"></button>
+                <h4 class="modal-title" style="text-align: center;color:#337ab7;font-size: 22px;">修改密码</h4>
+              </div>
+              <div class="modal-body"><form id = "myForm">
+                <form id = "myForm">
+                  <div class="input" style="text-align: center;color: #26354c;font-size: 20px;">
+                    <span>原密码:&nbsp;&nbsp;&nbsp;</span>
+                    <input type="password" id="oldPassword" name="oldPassword" maxlength="15"
+                          ng-model="params.oldPassword" >
+                          <br><br>
+                    <span>新密码:&nbsp;&nbsp;&nbsp;&nbsp;</span><input type="password" id="newPassword" name="newPassword" ng-model="params.newPassword" maxlength="15">
+                          <br><br>
+                    <span>确认密码:&nbsp;</span><input type="password"  id ="confirmPassword" name="confirmPassword" ng-model="params.confirmPassword" maxlength="15">
+                          <br><br>    
+                  </div>                            
+                </form>
+              </div>
+              <div class="modal-footer" style="text-align: center;color: #337ab7">
+                 <button id="password" tabindex="0" class="btn btn-primary" role="button" title="提示" text-align: center; data-placement="left" data-content="" ng-click="modifyPassword()"  style="margin-right: 30px" data-trigger="focus">保存</button>
+                 <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="cancel();">取消</button>
+                <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+              </div>
+            </div><!-- /.modal-content -->
+          </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->        
+    </div>
+   <!--  Google Analytics: change UA-XXXXX-X to be your site's ID
+    <script>
+      !function(A,n,g,u,l,a,r){A.GoogleAnalyticsObject=l,A[l]=A[l]||function(){
+      (A[l].q=A[l].q||[]).push(arguments)},A[l].l=+new Date,a=n.createElement(g),
+      r=n.getElementsByTagName(g)[0],a.src=u,r.parentNode.insertBefore(a,r)
+      }(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+   
+      ga('create', 'UA-XXXXX-X');
+      ga('send', 'pageview');
+   </script> -->
+
+    <!-- build:js(.) scripts/vendor.js -->
+    <!-- bower:js -->
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="bower_components/angular-animate/angular-animate.js"></script>
+    <script src="bower_components/angular-resource/angular-resource.js"></script>
+    <script src="bower_components/angular-route/angular-route.js"></script>
+    <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+    <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+    <script src="bower_components/lodash/lodash.js"></script>
+    <script src="bower_components/restangular/dist/restangular.js"></script>
+    <!-- endbower -->
+    <!-- endbuild -->
+    <!-- dataPicker.js -->
+    <script src="scripts/common/bootstrap-datetimepicker.min.js"></script>
+    <script src="scripts/common/bootstrap-datetimepicker.fr.js"></script>
+	
+	<script src="scripts/common/bootstrap-editable.js"></script>
+
+    <!-- enddataPicker.js -->
+    <!-- tableUI.js -->
+    <script src="scripts/common/bootstrap-table.js"></script>
+    <script src="scripts/common/bootstrap-table-zh-CN.js"></script>
+    <!-- endtableUI.js -->
+    
+|
+    
+    <!-- build:js({.tmp,app}) scripts/scripts.js -->
+        <script src="scripts/app.js"></script>
+        <script src="scripts/config/config.js"></script>
+        <script src="scripts/config/filter.js"></script>
+        <script src="directive/page.js"></script>
+    <!-- endbuild -->
+
+    <!-- jckfApp.servers: js -->
+    <script src="scripts/services/role_management/role_management_service.js"></script>
+    <script src="scripts/services/user_management/user_management_server.js"></script>
+	  <script src="scripts/services/project_member/project_member_service.js"></script>
+    <script src="scripts/services/log_management/log_management_service.js"></script>
+    <script src="scripts/services/project_management/project_management/project_management_service.js"></script>
+    <!-- endjckfApp.servers -->
+   
+    
+    <script type="text/javascript" src="scripts/controllers/log_management/log_management_ctrl.js"></script>
+    <script type="text/javascript" src="scripts/controllers/role_management/role_management.js"></script>
+    <script type="text/javascript" src="scripts/controllers/main_ctrl.js"></script>
+    <script type="text/javascript" src="scripts/controllers/user_management/user_management.js"></script>
+	  <script type="text/javascript" src="scripts/controllers/project_member/project_member_ctrl.js"></script>
+	  <script type="text/javascript" src="scripts/controllers/project_member/project_member_add_ctrl.js"></script>
+    <script type="text/javascript" src="scripts/controllers/index_ctrl.js"></script>
+    
+    <!-- 弹出框JS -->
+    <script type="text/javascript">
+      $(function (){
+          $("[data-toggle='popover']").popover();
+      }); 
+    </script>
+</body>
+</html>

@@ -9,29 +9,35 @@
  */
 (function () {
   angular.module('jckfApp.projectMember')
-  .controller('projectMemberCtrls',  ["$scope", "$http", "projectMemberService", "$stateParams",function ($scope, $http, projectMemberService, $stateParams) {
+  .controller('projectMemberCtrls',  ["$scope", "$http", "projectMemberService", function ($scope, $http, projectMemberService) {
     this.awesomeThings = [
       'HTML5 Boilerplate',
       'AngularJS',
       'Karma'
     ];
 	
-	/** 编辑方法*/
-	$scope.edit = function(){
-		
+	$scope.roleName = {};
+	//初始化查询角色
+	$scope.init = function() {
+		projectMemberService.queryRole(null, function(res){
+			console.log(res);
+			if (res.success){
+			   $scope.roleName = res.data.list;
+			   console.log($scope.roleName);
+			}else{
+			  $scope.setNoticeMsg("没有查询到数据");
+			}
+		})
 	}
 	
-	/** 保存方法*/
-	$scope.save = function(){
-		alert("保存成功");
+	$scope.modify = function() {
+		var str = [];
+		$('input:checkbox[name=check]:checked').each(function(){
+			str.push(this.value);
+		})
+		console.log(str);
 	}
 	
-	/** 取消方法 */
-	$scope.cancle = function(){
-		//重新查询
-		$scope.queryMember();
-		alert("取消成功并重新查询完成");
-	}
 
 
     $scope.init = function(){

@@ -1,0 +1,15 @@
+exports.RoleShowData = [
+
+			    {
+	             id: 1,
+	             roleName:"管理员",
+	             note:"管理员帐号"
+	            }, {
+	             id: 2,
+	             roleName:"尹枫",
+	             note:"尹枫个人帐号"
+	            }
+
+
+
+]

@@ -1,0 +1,55 @@
+﻿'use strict';
+
+/**
+ * @ngdoc function
+ * @name integratedDevApp.controller:MainCtrl
+ * @description
+ * # MainCtrl
+ * Controller of the integratedDevApp
+ */
+(function () {
+  angular.module('jckfApp.projectMember')
+  .controller('projectMemberCtrls',  ["$scope", "$http", "projectMemberService", "$stateParams",function ($scope, $http, projectMemberService, $stateParams) {
+    this.awesomeThings = [
+      'HTML5 Boilerplate',
+      'AngularJS',
+      'Karma'
+    ];
+	
+	/** 编辑方法*/
+	$scope.edit = function(){
+		$("tr[class='selected'] td:last").editable({
+            type: "checklist",              //编辑框的类型。支持text|textarea|select|date|checklist等
+            source: [{ value: 'bsb', text: '篮球' },
+                    { value: 'ftb', text: '足球' },
+                    { value: 'wsm', text: '游泳' }],
+            title: "选择部门",           //编辑框的标题
+            separator:","
+        });
+	}
+	
+	/** 保存方法*/
+	$scope.save = function(){
+		console.log($("tr[class='selected'] td:last"));
+		alert("保存成功");
+	}
+	
+	/** 取消方法 */
+	$scope.cancle = function(){
+		//重新查询
+		$scope.queryMember();
+		alert("取消成功并重新查询完成");
+	}
+
+    $scope.queryMember = function() {
+      $('#tb_departments').bootstrapTable('refresh');  
+    };
+      
+
+	$scope.deleteMember = function() {
+		var check = $('#tb_departments').bootstrapTable('getSelections');
+		console.log(check);
+    }
+ 
+   }]);
+})();

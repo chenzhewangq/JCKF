@@ -1,0 +1,54 @@
+﻿'use strict';
+
+/**
+ * @ngdoc function
+ * @name integratedDevApp.controller:MainCtrl
+ * @description
+ * # MainCtrl
+ * Controller of the integratedDevApp
+ */
+(function () {
+  angular.module('jckfApp.projectMember')
+  .controller('projectMemberCtrls',  ["$scope", "$http", "projectMemberService", function ($scope, $http, projectMemberService) {
+    this.awesomeThings = [
+      'HTML5 Boilerplate',
+      'AngularJS',
+      'Karma'
+    ];
+	
+	/** 编辑方法*/
+	$scope.edit = function(){
+		$("tr[class='selected'] td:last").editable({
+            type: "checklist",              //编辑框的类型。支持text|textarea|select|date|checklist等
+            source: [{ value: '1', text: '系统管理员' },
+                    { value: '2', text: '项目经理' },
+                    { value: '3', text: '开发人员' }],
+            title: "选择角色",           //编辑框的标题
+            separator:",",
+			success: function(response, newValue) {
+				console.log(newValue);
+				
+			}
+        });
+	}
+	
+	
+	/** 取消方法 */
+	$scope.cancle = function(){
+		//重新查询
+		$scope.queryMember();
+		alert("取消成功并重新查询完成");
+	}
+
+    $scope.queryMember = function() {
+      $('#tb_departments').bootstrapTable('refresh');  
+    };
+      
+
+	$scope.deleteMember = function() {
+		var check = $('#tb_departments').bootstrapTable('getSelections');
+		console.log(check);
+    }
+ 
+   }]);
+})();

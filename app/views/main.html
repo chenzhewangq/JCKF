@@ -1,8 +1,4 @@
-<style>
-  .ng-invalid {
-    border-color: red;
-  }
-</style>
+
 <div class="home-page" ng-init="initPage()">
       <div class="home-page-nav">
         <div><span>项目名称：</span><input type="text" style="color: black" ng-model="queryParams.projectName"></div>
@@ -26,13 +22,13 @@
       </div>
       <table class="table table-bordered" id="project-table">
         <thead>
-          <th>项目名称</th>
-          <th>项目编号</th>
-          <th>项目开始时间</th>
-          <th>项目结束时间</th>
-          <th>项目经理</th>
-          <th>项目状态</th>
-          <th>操作</th>
+          <th style="text-align: center;">项目名称</th>
+          <th style="text-align: center;">项目编号</th>
+          <th style="text-align: center;">项目开始时间</th>
+          <th style="text-align: center;">项目结束时间</th>
+          <th style="text-align: center;">项目经理</th>
+          <th style="text-align: center;">项目状态</th>
+          <th style="text-align: center;">操作</th>
         </thead>
         <tbody>
           <tr bindonce ng-repeat="data in queryList">
@@ -48,40 +44,49 @@
                 <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modifyModal" ng-click="modify(data)">编辑</button>
                 <a href="#" ui-sref="projectManage"><span>进入项目</span></a>
 				        <a href="#" ui-sref="projectMember"><span>项目人员分配</span></a>
+                <a href="#" ui-sref="projectLog"><span>项目日志管理</span></a>
 			      </td>
           </tr>
         </tbody>
       </table>
-      <page limit="10" current-page="1" params="queryParams" total="500" data="queryList" page-url="queryUlr"></page>
+      <page limit="10" current-page="1" params="queryParams" total="200" data="queryList" page-url="queryUlr"></page>
       <!-- 添加项目 -->
       <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog" style="width: 700px;">
         <div class="modal-content">
           <div class="modal-header">
             <h4 class="modal-title" id="myModalLabel">添加项目</h4>
           </div>
               <div class="modal-body">
-                <form class="form-horizontal" role="form" novalidate name="myForm">
+                <form class="form-horizontal" role="form" name="myForm" novalidate>
                   <div class="form-group">
                     <label for="inputEmail3" class="col-sm-2 control-label" style="margin-left: 90px; width: 110px;">项目名称：</label>
                     <div class="col-sm-5">
-                      <input type="text" class="form-control" id="inputEmail3" name="inputEmail3" placeholder="项目名称" ng-model="addParams.projectName" ng-maxlength="10">
-                      <span style="color: red"ng-show="myForm.inputEmail3.$dirty && myForm.inputEmail3.$invalid">不能为空且不超过10个字符</span>
+                      <input type="text" class="form-control" id="inputEmail3" placeholder="项目名称" name="projectName" ng-model="addParams.projectName" ng-maxlength="50" required>
+
+                      <span ng-show="myForm.projectName.$error.maxlength" style="color: red">最多能输入50个字符</span> 
+                      <span ng-show="myForm.projectName.$error.required && myForm.projectName.$dirty" style="color: red">该项为必填项</span>
                     </div>
+                    <span style="color: red;">*</span>
                   </div>
                   <div class="form-group">
                     <label for="inputPassword3" class="col-sm-2 control-label" style="margin-left: 90px; width: 110px;">项目编码：</label>
                     <div class="col-sm-5">
-                      <input type="text" class="form-control" id="inputPassword3" placeholder="项目编码" ng-model="addParams.projectCode" maxlength="20">
+                      <input type="text" class="form-control" id="inputPassword3" placeholder="项目编码" name="projectCode" ng-model="addParams.projectCode" ng-maxlength="20" required>
+                      <span ng-show="myForm.projectCode.$error.maxlength" style="color: red;">最多能输入20个字符</span>
+                      <span ng-show="myForm.projectCode.$error.required && myForm.projectCode.$dirty" style="color: red;">该项为必填项</span>
                     </div>
+                    <span style="color: red;">*</span>
                   </div>
                   <div class="form-group">
                     <label for="inputEmail3" class="col-sm-2 control-label" style="margin-left: 90px; width: 110px;">项目经理：</label>
                     <div class="col-sm-5">
-                      <input type="text" class="form-control" id="inputEmail3" placeholder="项目经理" ng-model="addParams.projectDirector" maxlength="10">
+                      <input type="text" class="form-control" id="inputEmail3" placeholder="项目经理" name="projectDirector" ng-model="addParams.projectDirector" ng-maxlength="10" required>
+                      <span ng-show="myForm.projectDirector.$error.maxlength" style="color: red;">最多能输入10个字符</span>
+                      <span ng-show="myForm.projectDirector.$error.required && myForm.projectDirector.$dirty" style="color: red;">该项为必填项</span>
                     </div>
+                    <span style="color: red;">*</span>
                   </div>
-                  
                   <div class="form-group">
                     <label for="inputEmail3" class="col-sm-2 control-label" style="margin-left: 90px; width: 110px;">项目状态：</label>
                     <div class="dropdown">
@@ -90,43 +95,52 @@
                         <option value="1">进行中</option> 
                         <option value="2">已结束</option> 
                       </select>
+                      <span style="color: red;">*</span>
                     </div>
                   </div>
                   <div class="form-group">
                     <label for="inputPassword3" class="col-sm-2 control-label" style="margin-left: 90px; width: 110px;">工单编号：</label>
                     <div class="col-sm-5">
-                      <input type="text" class="form-control" id="inputPassword3" placeholder="工单编号" ng-model="addParams.orderId" maxlength="20">
+                      <input type="text" class="form-control" id="inputPassword3" placeholder="工单编号" name="orderId" ng-model="addParams.orderId" ng-maxlength="20" required>
+                      <span ng-show="myForm.orderId.$error.maxlength" style="color: red;">最多能输入20个字符</span>
+                      <span ng-show="myForm.orderId.$error.required && myForm.orderId.$dirty" style="color: red;">该项为必填项</span>
                     </div>
+                    <span style="color: red;">*</span>
                   </div>
                   <div class="form-group">
                     <label for="inputEmail3" class="col-sm-2 control-label" style="margin-left: 90px; width: 110px;">项目描述：</label>
                     <div class="col-sm-5">
-                      <!-- <input type="textarea" rows="4" class="form-control" id="inputEmail3" placeholder="项目描述" ng-model="addParams.projectDesc"> -->
-                      <textarea cols="40" rows="4" class="form-control" id="inputEmail3" placeholder="项目描述" ng-model="addParams.projectDesc" maxlength="50"></textarea>
+                      <textarea cols="40" rows="4" class="form-control" id="inputEmail3" placeholder="项目描述" name="projectDesc" ng-model="addParams.projectDesc" ng-maxlength="50" required></textarea>
+                      <span ng-show="myForm.projectDesc.$error.maxlength" style="color: red;">最多能输入50个字符</span>
+                      <span ng-show="myForm.projectDesc.$error.required && myForm.projectDesc.$dirty" style="color: red;">该项为必填项</span>
                     </div>
+                    <span style="color: red;">*</span>
                   </div>
                   <div class="form-group">
                     <label for="inputEmail3" class="col-sm-2 control-label" style="margin-left: 90px; width: 110px;">开始时间：</label>
-                      <div class="input-group date form_date col-md-5" data-date="" data-date-format="dd MM yyyy" data-link-field="dtp_input2" data-link-format="yyyymmdd">
-                      <input class="form-control" size="16" type="text" value="" readonly  >
+                      <div class="input-group date form_date col-md-5" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
+                      <input class="form-control" size="16" type="text" value="" readonly ng-model="addParams.startTime">
                           <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                           <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                          <span style="color: red;">*</span>
                       </div>
-                      <input type="hidden" id="dtp_input2" value=""/>
+                      <input type="hidden" id="dtp_input2" value="" />
                   </div> 
                   <div class="form-group">
                     <label for="inputEmail3" class="col-sm-2 control-label" style="margin-left: 90px; width: 110px;">结束时间：</label>
-                    <div class="input-group date form_date col-md-5" data-date="" data-date-format="dd MM yyyy" data-link-field="dtp_input3" data-link-format="yyyymmdd">
-                      <input class="form-control" size="16" type="text" value="" readonly  >
+                    <div class="input-group date form_date col-md-5" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input3" 
+                    data-link-format="yyyy-mm-dd">
+                      <input class="form-control" size="16" type="text" value="" readonly ng-model="addParams.endTime">
                           <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                           <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                          <span style="color: red;">*</span>
                       </div>
                       <input type="hidden" id="dtp_input3" value=""/>
                   </div>  
                 </form>
                 <div class="modal-footer">
-                  <button type="submit" class="btn btn-primary btn-sm" ng-click="add()" data-dismiss="modal">保存</button>
-                  <button type="button" class="btn btn-success btn-sm" data-dismiss="modal" style="margin-left: 20px;">取消</button>
+                  <button type="submit" class="btn btn-primary btn-sm" ng-click="add()" data-dismiss="modal" ng-disabled="myForm.$invalid">保存</button>
+                  <button type="button" class="btn btn-success btn-sm" data-dismiss="modal" style="margin-left: 20px;" ng-click="addCancel()">取消</button>
                 </div>  
               </div>
         </div>
@@ -190,26 +204,32 @@
         <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h4 class="modal-title" id="myModalLabel">添加项目</h4>
+            <h4 class="modal-title" id="myModalLabel">编辑项目</h4>
           </div>
               <div class="modal-body">
-                <form class="form-horizontal" role="form">
+                <form class="form-horizontal" role="form" name="modifyForm" novalidate>
                   <div class="form-group">
                     <label for="inputEmail3" class="col-sm-2 control-label" style="margin-left: 90px; width: 110px;">项目名称：</label>
                     <div class="col-sm-5">
-                      <input type="text" class="form-control" id="inputEmail3" placeholder="项目名称" ng-model="modifyData.projectName" maxlength="50">
+                      <input type="text" class="form-control" id="inputEmail3" placeholder="项目名称" name="modifyName" ng-model="modifyData.projectName" ng-maxlength="50" required>
+                      <span ng-show="modifyForm.modifyName.$error.maxlength" style="color: red">最多能输入50个字符</span> 
+                      <span ng-show="modifyForm.modifyName.$error.required && modifyForm.modifyName.$dirty" style="color: red">该项为必填项</span>
                     </div>
                   </div>
                   <div class="form-group">
                     <label for="inputPassword3" class="col-sm-2 control-label" style="margin-left: 90px; width: 110px;">项目编码：</label>
                     <div class="col-sm-5">
-                      <input type="text" class="form-control" id="inputPassword3" placeholder="项目编码" ng-model="modifyData.projectCode" maxlength="20">
+                      <input type="text" class="form-control" id="inputPassword3" placeholder="项目编码" name="modifyCode" ng-model="modifyData.projectCode" ng-maxlength="20" required>
+                      <span ng-show="modifyForm.modifyCode.$error.maxlength" style="color: red">最多能输入20个字符</span> 
+                      <span ng-show="modifyForm.modifyCode.$error.required && modifyForm.modifyCode.$dirty" style="color: red">该项为必填项</span>
                     </div>
                   </div>
                   <div class="form-group">
                     <label for="inputEmail3" class="col-sm-2 control-label" style="margin-left: 90px; width: 110px;">项目经理：</label>
                     <div class="col-sm-5">
-                      <input type="text" class="form-control" id="inputEmail3" placeholder="项目经理" ng-model="modifyData.projectDirector" maxlength="10">
+                      <input type="text" class="form-control" id="inputEmail3" placeholder="项目经理" name="modifyDirector" ng-model="modifyData.projectDirector" ng-maxlength="10" required>
+                      <span ng-show="modifyForm.modifyDirector.$error.maxlength" style="color: red">最多能输入10个字符</span> 
+                      <span ng-show="modifyForm.modifyDirector.$error.required && modifyForm.modifyDirector.$dirty" style="color: red">该项为必填项</span>
                     </div>
                   </div>
                   <div class="form-group">
@@ -225,14 +245,17 @@
                   <div class="form-group">
                     <label for="inputPassword3" class="col-sm-2 control-label" style="margin-left: 90px; width: 110px;">工单编号：</label>
                     <div class="col-sm-5">
-                      <input type="text" class="form-control" id="inputPassword3" placeholder="工单编号" ng-model="modifyData.orderId" maxlength="20">
+                      <input type="text" class="form-control" id="inputPassword3" placeholder="工单编号" name="modifyOrderId" ng-model="modifyData.orderId" ng-maxlength="20" required>
+                      <span ng-show="modifyForm.modifyOrderId.$error.maxlength" style="color: red">最多能输入20个字符</span> 
+                      <span ng-show="modifyForm.modifyOrderId.$error.required && modifyForm.modifyOrderId.$dirty" style="color: red">该项为必填项</span>
                     </div>
                   </div>
                   <div class="form-group">
                     <label for="inputEmail3" class="col-sm-2 control-label" style="margin-left: 90px; width: 110px;">项目描述：</label>
                     <div class="col-sm-5">
-                      <!-- <input type="textarea" class="form-control" id="inputEmail3" placeholder="项目描述" ng-model="modifyData.projectDesc"> -->
-                      <textarea cols="40" rows="4" class="form-control" id="inputEmail3" placeholder="项目描述" ng-model="modifyData.projectDesc" maxlength="50"></textarea>
+                      <textarea cols="40" rows="4" class="form-control" id="inputEmail3" placeholder="项目描述" name="modifyDesc" ng-model="modifyData.projectDesc" ng-maxlength="50" required></textarea>
+                      <span ng-show="modifyForm.modifyDesc.$error.maxlength" style="color: red">最多能输入50个字符</span> 
+                      <span ng-show="modifyForm.modifyDesc.$error.required && modifyForm.modifyDesc.$dirty" style="color: red">该项为必填项</span>
                     </div>
                   </div> 
                   <div class="form-group">
@@ -255,8 +278,8 @@
                   </div> 
                 </form>
                 <div class="modal-footer">
-                  <button type="submit" class="btn btn-primary btn-sm" ng-click="saveModify(modifyData)" data-dismiss="modal">保存</button>
-                  <button type="button" class="btn btn-success btn-sm" data-dismiss="modal" style="margin-left: 20px;">取消</button>
+                  <button type="submit" class="btn btn-primary btn-sm" ng-click="saveModify(modifyData)" data-dismiss="modal" ng-disabled="modifyForm.$invalid">保存</button>
+                  <button type="button" class="btn btn-success btn-sm" data-dismiss="modal" ng-click="modifyCancel()" style="margin-left: 20px;">取消</button>
                 </div>  
               </div>
         </div>
@@ -264,40 +287,6 @@
       </div>  
 
 </div>
-
-
-
-<script type="text/javascript">
-        $('.form_datetime').datetimepicker({
-            //language:  'fr',
-            weekStart: 1,
-            todayBtn:  1,
-            autoclose: 1,
-            todayHighlight: 1,
-            startView: 2,
-            forceParse: 0,
-            showMeridian: 1
-        });
-        $('.form_date').datetimepicker({
-            language:  'fr',
-            weekStart: 1,
-            todayBtn:  1,
-            autoclose: 1,
-            todayHighlight: 1,
-            startView: 2,
-            minView: 2,
-            forceParse: 0
-        });
-        $('.form_time').datetimepicker({
-            language:  'fr',
-            weekStart: 1,
-            todayBtn:  1,
-            autoclose: 1,
-            todayHighlight: 1,
-            startView: 1,
-            minView: 0,
-            maxView: 1,
-            forceParse: 0
-        });
-    </script>
-
+<script>
+  $('#datetimepicker').datetimepicker('setStartDate', '2012-01-01');
+</script>

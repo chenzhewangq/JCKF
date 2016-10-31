@@ -1,0 +1,6 @@
+(function(){
+  'use strict';
+  angular.module('jckfApp.directives',[
+    'directives.modal'
+  ]);
+}());

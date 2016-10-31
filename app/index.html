@@ -15,12 +15,17 @@
     <link rel="stylesheet" type="text/css" href="styles/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="styles/common/bootstrap-datetimepicker.min.css">
     <link rel="stylesheet" href="styles/common/bootstrap-table.css">
+	<link rel="stylesheet" href="styles/common/bootstrap-editable.css">
     <link rel="stylesheet" href="styles/main.css">
     <link rel="stylesheet" href="styles/home_page.css">
     <link rel="stylesheet" href="styles/sidebar.css">
     <!-- endbuild -->
     <link rel="stylesheet" href="styles/font-awesome/css/font-awesome.min.css">
-
+    <style type="text/css">
+      .popover {
+        color: red;
+      }
+    </style>
 
 
   </head>
@@ -73,43 +78,6 @@
         </div>
       </div>
 
-
-
-        <!--修改密码静态框-->
-        <!-- <div class="modal fade" id="myPasswords" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-          <div class="modal-dialog">
-            <div class="modal-content" style="width: 80%">
-              <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal"></button>
-                <h4 class="modal-title" style="text-align: center;color:#337ab7;font-size: 22px;">修改密码</h4>
-              </div>
-              <div class="modal-body"><form id = "myForm">
-                <form id = "myForm">
-                  <div class="input" style="text-align: center;color: #26354c;font-size: 20px;">
-                    <span>原密码:&nbsp;&nbsp;&nbsp;</span>
-                    <input type="password" id="oldPassword" name="oldPassword" 
-                          ng-model="params.oldPassword" >
-                          <br><br>
-                    <span>新密码:&nbsp;&nbsp;&nbsp;&nbsp;</span><input type="password" id="newPassword" name="newPassword" ng-model="params.newPassword">
-                          <br><br>
-                    <span>确认密码:&nbsp;</span><input type="password"  id ="confirmPassword" name="confirmPassword" ng-model="params.confirmPassword">
-                          <br><br>    
-                  </div>                            
-                </form>
-              </div>
-              <div class="modal-footer" style="text-align: center;color: #337ab7">
-                 <button id="password" tabindex="0" class="btn btn-primary" role="button" title="提示" text-align: center; data-placement="left" data-content="" ng-click="modifyPassword()" data-trigger="focus">保存</button>
-                 <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="cancel();">取消</button>
-                
-              </div>
-            </div>
-          </div>
-        </div>  -->
-            
-
-
-
-
       <!--修改密码静态框-->
         <div class="modal fade" id="myPassword" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
           <div class="modal-dialog">
@@ -122,18 +90,18 @@
                 <form id = "myForm">
                   <div class="input" style="text-align: center;color: #26354c;font-size: 20px;">
                     <span>原密码:&nbsp;&nbsp;&nbsp;</span>
-                    <input type="password" id="oldPassword" name="oldPassword" 
+                    <input type="password" id="oldPassword" name="oldPassword" maxlength="15"
                           ng-model="params.oldPassword" >
                           <br><br>
-                    <span>新密码:&nbsp;&nbsp;&nbsp;&nbsp;</span><input type="password" id="newPassword" name="newPassword" ng-model="params.newPassword">
+                    <span>新密码:&nbsp;&nbsp;&nbsp;&nbsp;</span><input type="password" id="newPassword" name="newPassword" ng-model="params.newPassword" maxlength="15">
                           <br><br>
-                    <span>确认密码:&nbsp;</span><input type="password"  id ="confirmPassword" name="confirmPassword" ng-model="params.confirmPassword">
+                    <span>确认密码:&nbsp;</span><input type="password"  id ="confirmPassword" name="confirmPassword" ng-model="params.confirmPassword" maxlength="15">
                           <br><br>    
                   </div>                            
                 </form>
               </div>
               <div class="modal-footer" style="text-align: center;color: #337ab7">
-                 <button id="password" tabindex="0" class="btn btn-primary" role="button" title="提示" text-align: center; data-placement="left" data-content="" ng-click="modifyPassword()" data-trigger="focus" style="margin-right: 30px">保存</button>
+                 <button id="password" tabindex="0" class="btn btn-primary" role="button" title="提示" text-align: center; data-placement="left" data-content="" ng-click="modifyPassword()"  style="margin-right: 30px" data-trigger="focus">保存</button>
                  <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="cancel();">取消</button>
                 <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
               </div>
@@ -162,6 +130,7 @@
     <script src="bower_components/angular-route/angular-route.js"></script>
     <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
     <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+    <script src="bower_components/angular-messages/angular-messages.js"></script>
     <script src="bower_components/lodash/lodash.js"></script>
     <script src="bower_components/restangular/dist/restangular.js"></script>
     <!-- endbower -->
@@ -169,12 +138,15 @@
     <!-- dataPicker.js -->
     <script src="scripts/common/bootstrap-datetimepicker.min.js"></script>
     <script src="scripts/common/bootstrap-datetimepicker.fr.js"></script>
+	
+	  <script src="scripts/common/bootstrap-editable.js"></script>
 
     <!-- enddataPicker.js -->
     <!-- tableUI.js -->
     <script src="scripts/common/bootstrap-table.js"></script>
     <script src="scripts/common/bootstrap-table-zh-CN.js"></script>
     <!-- endtableUI.js -->
+    <script src="scripts/common/common.js"></script>
     
 |
     
@@ -186,21 +158,41 @@
     <!-- endbuild -->
 
     <!-- jckfApp.servers: js -->
-    <script src="scripts/services/role_management/role_management_service.js"></script>
+    <!-- <script src="scripts/services/role_management/role_management_service.js"></script> 
     <script src="scripts/services/user_management/user_management_server.js"></script>
-	  <script src="scripts/services/project_member/project_member_service.js"></script>
+    <script src="scripts/services/project_member/project_member_service.js"></script>
     <script src="scripts/services/log_management/log_management_service.js"></script>
-    <script src="scripts/services/project_management/project_management/project_management_service.js"></script>
+    <script src="scripts/services/project_management/project_management/project_management_service.js"></script> -->
+
+     <script src="views/role_management/role_management_service.js"></script>
+    <script src="views/user_management/user_management_server.js"></script>
+    <script src="views/project_member/project_member_service.js"></script> 
+    <script src="views/log_management/log_management_service.js"></script>
+    <script src="views/main/project_management_service.js"></script>
+    <!-- <script src="scripts/services/project_management/project_management/project_management_service.js"></script> -->
     <!-- endjckfApp.servers -->
    
     
+   <!--  <script type="text/javascript" src="scripts/controllers/main_ctrl.js"></script> -->
+    <script type="text/javascript" src="views/main/main_ctrl.js"></script>
+    <script type="text/javascript" src="views/log_management/log_management_ctrl.js"></script>
+    <script type="text/javascript" src="views/role_management/role_management.js"></script>
+    <script type="text/javascript" src="views/user_management/user_management.js"></script>  
+    <script type="text/javascript" src="views/project_member/project_member_ctrl.js"></script>
+    <script type="text/javascript" src="views/project_member/project_member_add_ctrl.js"></script>
+     <script type="text/javascript" src="views/index_ctrl.js"></script>
+   <!--  <script type="text/javascript" src="scripts/controllers/index_ctrl.js"></script> -->
+    <!-- 
     <script type="text/javascript" src="scripts/controllers/log_management/log_management_ctrl.js"></script>
     <script type="text/javascript" src="scripts/controllers/role_management/role_management.js"></script>
-    <script type="text/javascript" src="scripts/controllers/main_ctrl.js"></script>
+    <script type="text/javascript" src="scripts/controllers/main_ctrl.js"></script> 
     <script type="text/javascript" src="scripts/controllers/user_management/user_management.js"></script>
-	  <script type="text/javascript" src="scripts/controllers/project_member/project_member_ctrl.js"></script>
-	  <script type="text/javascript" src="scripts/controllers/project_member/project_member_add_ctrl.js"></script>
-    <script type="text/javascript" src="scripts/controllers/index_ctrl.js"></script>
+ 
+    <script type="text/javascript" src="scripts/controllers/project_member/project_member_ctrl.js"></script>
+	  <script type="text/javascript" src="scripts/controllers/project_member/project_member_add_ctrl.js"></script> 
+    <script type="text/javascript" src="scripts/controllers/project_member/project_member_ctrl.js"></script>
+    <script type="text/javascript" src="scripts/controllers/project_member/project_member_add_ctrl.js"></script> -->
+    
     
     <!-- 弹出框JS -->
     <script type="text/javascript">
@@ -208,16 +200,11 @@
           $("[data-toggle='popover']").popover();
       }); 
     </script>
-
-
-    <!-- <script>
-    $(function(){
-        $('#myPasswords').modal({
-        show:true,
-        backdrop:true
-        })
-    });
-</script> -->
-    <!-- end弹出框JS -->
+    <script type="text/ng-template" id="error-messages">
+      <span ng-message="required">必填项</span>
+      <span ng-message="email">邮件格式不对</span>
+      <span ng-message="minlength">字符太短小于3</span>
+      <span ng-message="maxlength">字符太长大于20</span>
+    </script>
 </body>
 </html>

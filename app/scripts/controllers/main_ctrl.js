@@ -16,6 +16,7 @@
       'Karma'
     ];
 
+    $scope.date = new Date();
 
     $scope.test = function () {
       console.log($("[name='checkbox']:first").prop("checked"))
@@ -32,6 +33,38 @@
     }
 
     $scope.url = "/jckf/project/query";
+
+    $('.form_datetime').datetimepicker({
+        //language:  'fr',
+        weekStart: 1,
+        todayBtn:  1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        forceParse: 0,
+        showMeridian: 1
+    });
+    $('.form_date').datetimepicker({
+        language:  'fr',
+        weekStart: 1,
+        todayBtn:  1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        forceParse: 0
+    });
+    $('.form_time').datetimepicker({
+        language:  'fr',
+        weekStart: 1,
+        todayBtn:  1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 1,
+        minView: 0,
+        maxView: 1,
+        forceParse: 0
+    });
 
     
     $scope.queryUlr = "/jckf/project/query";
@@ -51,8 +84,8 @@
       status:'1', //项目状态(0: 计划中 1：进行中，2：已结束)
       projectCode:'', //项目编号
       orderId:'', //工单编号
-      startTime:'', //开始时间
-      endTime:'', //结束时间
+      startTime: new Date().Format("yyyy-MM-dd"), //开始时间
+      endTime: new Date(new Date().getTime() + (365 * 24 * 60 * 60 * 1000)).Format("yyyy-MM-dd"), //结束时间
       projectDesc:'' //项目描述
     };
 
@@ -63,8 +96,8 @@
     // 查询项目
     $scope.query = function(){
       projectManagement.query($scope.queryParams, function (response) {
-        console.log(response);
         if (response.success){
+          $scope.totalCount = response.data.totalCount;
           $scope.queryList = response.data.list;
         }else{
           $scope.setNoticeMsg("没有查询到数据");
@@ -74,8 +107,12 @@
 
     // 添加项目
     $scope.add = function(){
-      $scope.addParams.startTime = $('#dtp_input2').val();
-      $scope.addParams.endTime = $('#dtp_input3').val();
+      if($('#dtp_input2').val() !== ''){
+        $scope.addParams.startTime = $('#dtp_input2').val();
+      }
+      if($('#dtp_input3').val() !== ''){
+        $scope.addParams.endTime = $('#dtp_input3').val();
+      }
       projectManagement.add($scope.addParams, function (response) {
         if (response.success){
           $scope.setNoticeMsg("添加成功");
@@ -85,19 +122,43 @@
       });
     };
 
+    //添加项目取消按钮
+    $scope.addCancel = function(){
+      $scope.addParams.projectName = ''; //项目名称
+      $scope.addParams.projectDirector = '';//项目负责人
+      $scope.addParams.status = '1';//项目状态(0: 计划中 1：进行中，2：已结束)
+      $scope.addParams.projectCode = '';//项目编号
+      $scope.addParams.orderId = ''; //工单编号
+      $scope.addParams.startTime = new Date().Format("yyyy-MM-dd"); //开始时间
+      $scope.addParams.endTime = new Date(new Date().getTime() + (365 * 24 * 60 * 60 * 1000)).Format("yyyy-MM-dd"); //结束时间
+      $scope.addParams.projectDesc = ''; //项目描述
+      $scope.myForm.projectName.$error.required = false;
+      $scope.myForm.projectName.$error.maxlength = false;
+      $scope.myForm.projectDirector.$error.required = false;
+      $scope.myForm.projectDirector.$error.maxlength = false;
+      $scope.myForm.projectCode.$error.required = false;
+      $scope.myForm.projectCode.$error.maxlength = false;
+      $scope.myForm.orderId.$error.required = false;
+      $scope.myForm.orderId.$error.maxlength = false;
+      $scope.myForm.projectDesc.$error.required = false;
+      $scope.myForm.projectDesc.$error.maxlength = false;
+    };
+
     // 查看项目基本信息
     $scope.checkDetail = function(data){
           console.log(data);
           $scope.details = angular.copy(data);
           $scope.detailId = $scope.details.id;
-          projectManagement.query($scope.detailId, function (response) {
+          $scope.queryParams.id = $scope.detailId;
+          projectManagement.query($scope.queryParams, function (response) {
             console.log(response);
             if (response.success){
-              $scope.detailsData = response.data.list;
+              $scope.detailsData = response.data.list[0];
             }else{
               $scope.setNoticeMsg("没有查询到数据");
             }
           });
+          // $scope.detailsData = angular.copy(data);
     };
 
     // 编辑显示项目基本信息
@@ -105,10 +166,11 @@
       console.log(data);
       $scope.beforeData = angular.copy(data);
       $scope.projectId = $scope.beforeData.id;
-      projectManagement.query($scope.projectId, function (response) {
+      $scope.queryParams.id = $scope.projectId;
+      projectManagement.query($scope.queryParams, function (response) {
         console.log(response);
         if (response.success){
-          $scope.modifyData = response.data.list;
+          $scope.modifyData = response.data.list[0];
         }else{
           $scope.setNoticeMsg("没有查询到数据");
         }
@@ -128,6 +190,25 @@
           $scope.setNoticeMsg("修改失败");
         }
       });
+    };
+
+    //编辑项目取消按钮
+    $scope.modifyCancel = function(){
+      $scope.modifyForm.modifyName = '';
+      $scope.modifyForm.modifyCode = '';
+      $scope.modifyForm.modifyOrderId = '';
+      $scope.modifyForm.modifyDirector = '';
+      $scope.modifyForm.modifyDesc = '';
+      $scope.myForm.modifyName.$error.required = false;
+      $scope.myForm.modifyName.$error.maxlength = false;
+      $scope.myForm.modifyCode.$error.required = false;
+      $scope.myForm.modifyCode.$error.maxlength = false;
+      $scope.myForm.modifyOrderId.$error.required = false;
+      $scope.myForm.modifyOrderId.$error.maxlength = false;
+      $scope.myForm.modifyDirector.$error.required = false;
+      $scope.myForm.modifyDirector.$error.maxlength = false;
+      $scope.myForm.modifyDesc.$error.required = false;
+      $scope.myForm.modifyDesc.$error.maxlength = false;
     };
 
   }]);

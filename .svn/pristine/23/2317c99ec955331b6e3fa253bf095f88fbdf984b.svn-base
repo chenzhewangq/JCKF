@@ -1,0 +1,39 @@
+(function($){
+  'use strict';
+  angular.module('directives.modal',[])
+  .directive('showModal',showModal);
+  //弹出的提示框信息显示
+  //需要将点击弹出的按钮上面添加data-toggle="modal" data-target="#modalId"
+  function showModal(){
+    return {
+      restrict: 'E',
+      replace: true,
+      scope:{
+        modalMessage: '=',//弹出的信息
+        modalShow: '='//是否显示模态框信息
+      },
+      template: getTemplate,
+      link: function(scope){
+        scope.$watch('modalShow',function(n,o){
+          n ?  $('#modalId').modal('show') : $('#modalId').modal('hide');
+        })
+      }
+    };
+    function getTemplate(){
+      return '<div class="modal fade" id="modalId" tabindex="-1" role="dialog">'+
+              '<div class="modal-dialog" role="document" style="width:250px;font-size:1.2em;">'+
+                '<div class="modal-content">'+
+                  '<div class="modal-header" style="border:none;">'+
+                    '<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>'+
+                    '<h4 class="modal-title" id="myModalLabel">提示</h4>'+
+                  '</div>'+
+                  '<div class="modal-body lh-modal">{{modalMessage}}</div>'+
+                  '<div class="modal-footer lh-footer">'+
+                    '<button type="button" class="btn btn-default" data-dismiss="modal" style="color:#1EAAF1;">确认</button>'+
+                  '</div>'+
+                '</div>'+
+              '</div>'+
+            '</div>'
+    }
+  }
+}(jQuery));

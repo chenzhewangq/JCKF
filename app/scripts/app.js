@@ -16,6 +16,7 @@ var jckf = angular
     'ngSanitize',
     'ui.router',
     'restangular',
+    // 'jckfApp.directives',
 	'jckfApp.roleManagement',
 	'jckfApp.userManagement',
 	'jckfApp.projectMember',
@@ -23,4 +24,4 @@ var jckf = angular
 	'jckfApp.logManagement'    
 
   ]);
-  
+

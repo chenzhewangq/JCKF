@@ -1,0 +1,332 @@
+<style type="text/css">
+  .home-page-btn{
+      margin: 10px 0 20px 0;
+  }
+  .home-page-ma{
+      margin: 10px 0 20px 0;
+  }
+  body > div.percent > div.clearfix.ng-scope > div.home-page.ng-scope > div > button{
+        float: right;
+        margin-left: 20px;
+  }
+  body > div.percent > div.clearfix.ng-scope > div > div.home-page-nav > div:nth-child(3) > button:nth-child(4){
+    background: blueviolet;
+  }
+  body > div.percent > div.clearfix.ng-scope > div > div.home-page-nav > div:nth-child(3) > button:nth-child(3){
+    background: green;
+  }
+  body > div.percent > div.clearfix.ng-scope > div > div.home-page-nav > div:nth-child(3) > button:nth-child(2){
+    background: brown;
+  }
+  body > div.percent > div.clearfix.ng-scope > div > div.home-page-nav > div:nth-child(3) > button:nth-child(1){
+   background: yellowgreen;
+  }
+ body > div.percent > div.clearfix.ng-scope > div.home-page.ng-scope > table > tbody > tr:nth-child(1) > td:nth-child(9) > button{
+  float: left;
+ }
+ .radio-inline{
+      padding-left: 35px;
+ }
+ body > div.percent > div.clearfix.ng-scope > div.home-page.ng-scope > nav > ul{
+  float: right;
+ }
+</style>
+<div class="home-page" ng-init="initPage()">
+      <div class="home-page-nav">
+          <div><span>用户名：</span><input type="text" ng-model="params2.loginUser" maxlength="20" style="color:black"></div>
+          <div><span>姓名：</span><input type="text" ng-model="params2.staffName" maxlength="20" style="color:black"></div>
+      
+      <div>
+          <button type="button" class="btn btn-primary btn-sm" ng-click="userQuery()">查询</button>
+          <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#addUserModal">添加</button>
+          
+          <button type="button" class="btn btn-primary btn-sm" ng-click="isCheckedModify()">修改</button>
+          <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" ng-click="isCheckedDelete()">删除</button>
+          <button type="button" class="btn btn-primary btn-sm" date-toggle="modal" ng-click="isCheckedRestPs()" >重置密码</button>
+          
+      </div>
+      
+      </div>
+      <table class="table table-bordered" id="td_userMangement" >
+        <thead>
+          <th><input type="checkbox" name="checkbox" ng-click="checkAll();"></th>
+          <th>用户名</th>
+          <th>姓名</th>
+          <th>性别</th>
+          <th>电话</th>
+          <th>邮箱</th>
+          <th>申请时间</th>
+          <th>到期时间</th>
+        </thead>
+
+        <tbody>
+           <tr ng-repeat="date in res">
+            <td><input type="checkbox" name="checkbox" value={{date.id}} ng-click="check(date.id);"></td>
+            <td>{{date.login_user}}</td>
+            <td>{{date.staff_name}}</td>
+            <td>{{date.gender}}</td>
+            <td>{{date.phone}}</td>
+            <td>{{date.mail}}</td>
+            <td>{{date.createTime}}</td>
+            <td>{{date.expireTime}}</td> 
+          </tr> 
+        </tbody>
+      </table>
+      
+      <page limit="10" current-page="1" params="params2" total="200" data="res" page-url="pageUrl" float="right"></page>
+    </div>
+    <!-- 添加用户 -->
+      <div class="modal fade" id="addUserModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title" id="myModalLabel">添加用户</h4>
+          </div>
+              <div class="modal-body">
+                <form class="form-horizontal" name ="userAdd" role="form">
+                  <div class="form-group">
+                    <label for="inputEmail3" class="col-sm-2 control-label" style="margin-left: 90px; width: 110px;">用户名：</label>
+                    <div class="col-sm-5">
+                      <input type="text" class="form-control" id="inputEmail3" name="loginUser" placeholder="用户名" ng-model="Params.loginUser" ng-maxlength="20" required>
+                    </div>
+                  </div>
+                   <div ng-show="userAdd.loginUser.$error.maxlength" style="color:red ;margin-left: 200px">
+                         用户名不能超过20个字符
+                    </div>
+                  <div class="form-group">
+                    <label for="inputEmail3" class="col-sm-2 control-label" style="margin-left: 90px; width: 110px;">姓名：</label>
+                    <div class="col-sm-5">
+                      <input type="text" class="form-control" id="inputEmail3" name="staffName" placeholder="姓名" ng-model="Params.staffName" ng-maxlength="20" required>
+                    </div>
+                  </div>
+                  <div  ng-show="userAdd.staffName.$error.maxlength" style="color:red;margin-left: 200px">
+                         姓名不能超过20个字符
+                  </div>
+                   <div class="form-group">
+                    <label for="inputEmail3" class="col-sm-2 control-label" style="margin-left: 90px; width: 110px;">性别：</label>
+                      <div class="radio-inline">
+                      <input type="radio"  name="optionsRadios" value="option1" checked>女
+                      </div>
+                      <div class="radio-inline">
+                          <input type="radio"  name="optionsRadios" value="option2" >男
+                      </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="inputEmail3" class="col-sm-2 control-label" style="margin-left: 90px; width: 110px;">电话：</label>
+                    <div class="col-sm-5">
+                      <input type="text" class="form-control" id="inputEmail3" name="phone" placeholder="电话" ng-model="Params.phone"  ng-maxlength="11"  ng-pattern="/^[1-9]\d*$/" maxlength="11" required>
+                    </div>
+                  </div>
+                  <div ng-show="userAdd.phone.$error.pattern" style="color:red;margin-left: 200px">
+                         只允许输入纯数字；且首个字符不能为0
+                      </div>
+                      <div ng-show="userAdd.phone.$error.maxlength" style="color:red;margin-left: 200px">
+                         最多只能输入输入11个字符
+                      </div>
+                  <div class="form-group">
+                    <label for="inputEmail3" class="col-sm-2 control-label" style="margin-left: 90px; width: 110px;">邮箱：</label>
+                    <div class="col-sm-5">
+                      <input type="email" class="form-control" id="inputEmail3" name="mail" placeholder="邮箱" ng-model="Params.mail"  required>
+                    </div>
+                  </div>
+                  <div ng-show="userAdd.mail.$error.email" style="color:red;margin-left: 200px">
+                          邮箱是必须是合法的！
+                   </div>
+                  <div class="form-group">
+                    <label for="inputEmail3" class="col-sm-2 control-label" style="margin-left: 90px; width: 110px;">到期时间：</label>
+                      <div class="input-group date form_date col-md-5" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm- dd">
+                      <input class="form-control" size="16" type="text" ng-model="Params.expireTime" value="" readonly>
+                          <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                          <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                      </div>
+                      <input type="hidden" id="dtp_input2" value=""/>
+                  </div>  
+                </form>
+                <div class="modal-footer">
+                  <button type="submit" class="btn btn-primary btn-sm" ng-click="addUser()" data-dismiss="modal" ng-disabled="userAdd.$invalid">添加</button>
+                  <button type="button" class="btn btn-success btn-sm" data-dismiss="modal" ng-click="cancel()" style="margin-left: 20px;">取消</button>
+                </div>  
+              </div>
+        </div>
+        </div>
+      </div> 
+    <!-- </ng-form> -->
+      <!-- 修改用户 -->
+      <div class="modal fade" id="modifyUserModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title" id="myModalLabel">修改用户</h4>
+          </div>
+              <div class="modal-body">
+                <form class="form-horizontal" name="userModify"role="form">
+                  <div class="form-group">
+                    <label for="inputEmail3" class="col-sm-2 control-label" style="margin-left: 90px; width: 110px;">用户名：</label>
+                    <div class="col-sm-5">
+                      <input type="text" class="form-control" id="inputEmail3" name="loginUser"ng- placeholder="用户名" ng-model="Params.loginUser" ng-maxlength="20" required>
+                    </div>
+                  </div>
+                   <div ng-show="userModify.loginUser.$error.maxlength" style="color:red;margin-left: 200px">
+                         用户名输入不能超过20个字符
+                    </div>
+                  <div class="form-group">
+                    <label for="inputEmail3" class="col-sm-2 control-label" style="margin-left: 90px; width: 110px;">姓名：</label>
+                    <div class="col-sm-5">
+                      <input type="text" class="form-control" id="inputEmail3" name="staffName" placeholder="姓名" ng-model="Params.staffName" ng-maxlength="20" required>
+                    </div>
+                  </div>
+                  <div ng-show="userModify.staffName.$error.maxlength" style="color:red;margin-left: 200px">
+                         姓名输入不能超过20个字符
+                    </div>
+                   <div class="form-group">
+                    <label for="inputEmail3" class="col-sm-2 control-label" style="margin-left: 90px; width: 110px;">性别：</label>
+                    <div class="radio-inline">
+                      <input type="radio"  name="optionsRadios" value="option1" checked>女</div>
+                      <div class="radio-inline">
+                          <input type="radio"  name="optionsRadios" value="option2" >
+                      男
+                      </div>
+                  </div>
+                   <div class="form-group">
+                    <label for="inputEmail3" class="col-sm-2 control-label" style="margin-left: 90px; width: 110px;">电话：</label>
+                    <div class="col-sm-5">
+                      <input type="text" class="form-control" id="inputEmail3" name="phone" placeholder="电话" ng-model="Params.phone" ng-pattern="/^1[34578]\d{9}$/" ng-maxlength="11" required>
+                    </div>
+                  </div>
+                  <div ng-show="userModify.phone.$error.pattern" style="color:red;margin-left: 200px">
+                         请输入正确的电话号码格式；
+                      </div>
+                      <div ng-show="userModify.phone.$error.maxlength" style="color:red;margin-left: 200px">
+                         最多只能输入输入11个字符
+                      </div>
+                  <div class="form-group">
+                    <label for="inputEmail3" class="col-sm-2 control-label" style="margin-left: 90px; width: 110px;">邮箱：</label>
+                    <div class="col-sm-5">
+                      <input type="email" class="form-control" id="inputEmail3" name="mail" placeholder="邮箱" ng-model="Params.mail" maxlength="20" required>
+                    </div>
+                  </div>
+                   <div ng-show="userModify.mail.$error.email" style="color:red;margin-left: 200px">
+                          邮箱是必须是合法的！
+                   </div>
+                  <div class="form-group">
+                    <label for="inputEmail3" class="col-sm-2 control-label" style="margin-left: 90px; width: 110px;">到期时间：</label>
+                      <div class="input-group date form_date col-md-5" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm- dd">
+                      <input class="form-control" size="16" type="text" ng-model="Params.expireTime" value="" readonly>
+                          <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                          <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                      </div>
+                      <input type="hidden" id="dtp_input2" value=""/>
+                  </div>  
+                </form>
+                <div class="modal-footer">
+                  <button type="submit" class="btn btn-primary btn-sm" ng-click="modifyUser()" data-dismiss="modal" ng-disabled="userAdd.$invalid">保存</button>
+                  <button type="button" class="btn btn-success btn-sm" data-dismiss="modal" ng-click="cancel()" style="margin-left: 20px;">取消</button>
+                </div>  
+              </div>
+        </div>
+        </div>
+      </div> 
+<!-- 删除提示框 -->
+ <div class="modal fade" id="deleteUserModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document" style="width:250px;font-size:1.2em;">
+    <div class="modal-content">
+      <div class="modal-header" style="border:none;">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">提示</h4>
+      </div>
+      <div class="modal-body lh-modal">
+      是否确认删除用户？
+      </div>
+      <div class="modal-footer lh-footer"> 
+        <button id="del" type="button" class="btn btn-primary" ng-click="deleteUser(id)">删除</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+      </div>
+    </div>
+  </div>
+</div> 
+<!-- 勾选提示框 -->
+ <div class="modal fade" id="cheeckModal1" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document" style="width:250px;font-size:1.2em;">
+    <div class="modal-content">
+      <div class="modal-header" style="border:none;">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">提示</h4>
+      </div>
+      <div class="modal-body lh-modal">
+        未勾选用户信息！
+      </div>
+      <div class="modal-footer lh-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">确定</button>
+      </div>
+    </div>
+  </div>
+</div> 
+
+ <div class="modal fade" id="cheeckModal2" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document" style="width:250px;font-size:1.2em;">
+    <div class="modal-content">
+      <div class="modal-header" style="border:none;">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">提示</h4>
+      </div>
+      <div class="modal-body lh-modal">
+        只能勾选一条用户信息
+      </div>
+      <div class="modal-footer lh-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">确定</button>
+      </div>
+    </div>
+  </div>
+</div> 
+<!-- 重置密码 -->
+ <div class="modal fade" id="restPasswordModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document" style="width:250px;font-size:1.2em;">
+    <div class="modal-content">
+      <div class="modal-header" style="border:none;">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">提示</h4>
+      </div>
+      <div class="modal-body lh-modal">
+      是否将用户的密码设为初始值？
+      </div>
+      <div class="modal-footer lh-footer">
+        <button id="del" type="button" class="btn btn-primary" ng-click="restPassword()">确认</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+      </div>
+    </div>
+  </div>
+</div> 
+    <script type="text/javascript">
+        $('.form_datetime').datetimepicker({
+            //language:  'fr',
+            weekStart: 1,
+            todayBtn:  1,
+            autoclose: 1,
+            todayHighlight: 1,
+            startView: 2,
+            forceParse: 0,
+            showMeridian: 1
+        });
+      $('.form_date').datetimepicker({
+            language:  'fr',
+            weekStart: 1,
+            todayBtn:  1,
+            autoclose: 1,
+            todayHighlight: 1,
+            startView: 2,
+            minView: 2,
+            forceParse: 0
+        });
+      $('.form_time').datetimepicker({
+            language:  'fr',
+            weekStart: 1,
+            todayBtn:  1,
+            autoclose: 1,
+            todayHighlight: 1,
+            startView: 1,
+            minView: 0,
+            maxView: 1,
+            forceParse: 0
+        });
+    </script>
+

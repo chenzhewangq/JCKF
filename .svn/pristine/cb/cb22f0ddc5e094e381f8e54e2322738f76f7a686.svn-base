@@ -1,0 +1,134 @@
+﻿<div class="home-page" ng-init="initPage()">
+      <div class="home-page-nav">
+        <div><span>修改模块：</span>
+          <select class="btn btn-default dropdown-toggle btn-sm" id="modifyModule" style="width: 160px; height: 32px;" ng-model="query.module"> 
+              <option selected="selected" value="">---全部---</option> 
+              <option>用户管理模块</option> 
+              <option>项目管理模块</option> 
+              <option>角色管理模块</option> 
+              </select>
+         </div> 
+
+
+        <div><span>修改人：</span><input type="text" maxlength="20"></div>
+        <div><span>修改时间：</span><input type="text" id="startDate" readonly="readonly">-<input readonly="readonly" type="text" id="endDate"></div>
+        <br/><br/>
+        <div><span>修改类型：</span>
+    <select class="btn btn-default dropdown-toggle btn-sm" id="modifyType" style="width: 160px; height: 32px;" ng-model="query.type"> 
+      <option selected="selected" value="">---全部---</option> 
+      <option>新增</option> 
+      <option>修改</option> 
+      <option>删除</option> 
+      </select>
+  </div>
+
+        <div>
+          <button type="button" class="btn btn-primary btn-sm" ng-click="queryWhere()">查询</button>
+        </div>
+      </div>
+      <table class="table table-bordered">
+        <thead>
+          <th>操作项目</th>
+          <!-- <th>修改前</th>
+          <th>修改后</th> -->
+          <th>修改时间</th>
+          <th>修改人</th>
+          <th>模块路径</th>
+          <th>操作类型</th>
+          <th>操作</th>
+        </thead>
+        <tbody>
+        <tr bindonce ng-repeat="data in res">
+            <td>{{data.projectId}}</td>
+            <!-- <td>{{data.oldValue}}</td>
+             <td>{{data.newValue}}</td> -->
+            <td>{{data.operTime}}</td>
+            <td>{{data.staffName}}</td>
+            <td>{{data.modulePath}}</td>
+            <td>{{data.operType}}</td>
+            <td style="cursor: pointer;" data-toggle="modal" data-target="#detailModal" ng-click="queryLogDetail('{{data.projectId}}')">查看详情</td>
+          </tr>
+        </tbody>
+      </table>
+      <page limit="10" current-page="1" params="queryParams" total="200" data="res" page-url="queryLogUlr"></page>
+
+
+       <!-- 查看详情 -->
+      <div class="modal fade" style="width: 100%" id="detailModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title" id="myModalLabel">查看日志详情</h4>
+          </div>
+              <div class="modal-body table-responsive">
+               <!--字段table-->
+                <table class="table-bordered table" style="float: left; width: 20%;" id="tb_filed">
+                  <tr>
+                    <td><strong>修改项</strong></td>
+                  </tr>
+                   
+                   <tr  bindonce ng-repeat="item in resp[0]">
+                    <td style="height: 40px;">{{item}}</td>
+                   </tr>
+                </table>
+              <!--修改前table-->
+                <table class="table-bordered table" style="float: left; width: 40%;" id="tb_before">
+                  <tr>
+                    <td><strong>修改前</strong></td>
+                  </tr>
+                   
+                   <tr  bindonce ng-repeat="item in resp[1] track by $index">
+                    <td style="height: 40px;">{{item}}</td>
+                   </tr>
+                </table>
+                <!--修改后table-->
+                  <table class="table-bordered table" style="width: 40%;" id="tb_back">
+                  <tr>
+                    <td><strong>修改后</strong></td>
+                  </tr>
+                   
+                   <tr  bindonce ng-repeat="item in resp[2] track by $index">
+                     <td style="height: 40px;">{{item}}</td> 
+                   </tr>
+                </table>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-success btn-sm" data-dismiss="modal" style="margin-left: 20px;">返回</button>
+                </div>  
+              </div>
+        </div>
+        </div>
+      </div>  
+
+</div>
+
+<script type="text/javascript">
+        $('#startDate').datetimepicker({
+            language:  'fr',
+            weekStart: 1,
+            todayBtn:  1,
+            autoclose: 1,
+            todayHighlight: 1,
+           // minView: 2,
+            startView: 2,
+            forceParse: 0,
+            showMeridian: 1
+        });
+        $('#endDate').datetimepicker({
+            language:  'fr',
+            weekStart: 1,
+            todayBtn:  1,
+            autoclose: 1,
+            todayHighlight: 1,
+            startView: 2,
+           // minView: 2,
+            forceParse: 0,
+            showMeridian: 1
+        });
+
+        $('#startDate').datetimepicker().on('changeDate', function(ev){
+            //alert(this.value);
+          $('#endDate').datetimepicker('setStartDate', this.value);
+        });
+       
+    </script>
+

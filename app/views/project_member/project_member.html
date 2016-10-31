@@ -2,7 +2,7 @@
 	<div class="home-page-nav">
 		<div><span>用户名：</span><input type="text" id="member_search_userName"></div>
         <div><span>姓名：</span><input type="text" id="member_search_name"></div>
-		<div><span>角色：</span>
+		<!-- <div><span>角色：</span>
           <div class="dropdown">
                  <select id="member_search_role" class="btn btn-default dropdown-toggle btn-sm" style="width: 160px; height: 32px;"  value> 
                       <option value="0">系统管理员</option> 
@@ -10,23 +10,73 @@
                       <option value="2">开发人员</option> 
                     </select>
             </div>
-        </div>
+        </div> -->
+
+
+		<span>所属角色:</span>
+        <div class="" style="float: none;">
+			    <div class="btn-group">
+					<!-- <span>所属角色:</span> -->
+					<div class="panel-down" style="width:100%">
+						<input style="width:11.3%;background-color:#fff;display: inline" class="form-control" type="text"  placeholder="请选择角色" ng-model="roleDataNames" data-toggle="dropdown" ng-readonly="true"/>
+						<div type="button"  class="drop-icon" data-toggle="dropdown" aria-expanded="true" style="position: absolute;right: 10px;top: 10px;">
+						    <span class="caret" style="display: inline;color: #333;"></span>
+					  	</div>
+					  	<ul class="m-width dropdown-menu drop-width drop-checkbox" role="menu" style="margin-top:0!important">
+					  
+					    <li class="divider"></li>
+					    <li class="pro-list" ng-repeat="r in daLists">
+					    	<label ng-click="proCheckbox(daLists,$index)">
+					    		<input type="checkbox" style="margin-top: 0;" ng-checked="r.checkbox">&nbsp;{{r.roleNames}}
+					    	</label>
+					    </li>
+					    
+					  </ul>
+					</div>
+				</div>
+				</div>
 
 		<div id="toolbar">
 
           <button type="button" class="btn btn-primary btn-sm" ng-click="queryMember()">查询</button>
-		  <button type="button" class="btn btn-warning btn-sm" ng-click="deleteMember()">删除</button>
+		  <button type="button" class="btn btn-danger btn-sm" ng-click="deleteMember()">删除</button>
           <button type="button" class="btn btn-success btn-sm" ui-sref="projectMember.add">添加</button>
-		  <button type="button" class="btn btn-info btn-sm" ng-show="!toSave" ng-click="edit();toSave=true;">编辑</button>
+		  <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#modifyRole">角色分配</button>
+		  <!--<button type="button" class="btn btn-info btn-sm" ng-show="!toSave" ng-click="edit();toSave=true;">编辑</button>
 		  <button type="button" class="btn btn-success btn-sm" ng-show="toSave" ng-click="save();toEdit=true;toSave=false;">保存</button>
-		  <button type="button" class="btn btn-danger btn-sm" ng-show="toSave" ng-click="cancle();toSave=false;">取消</button>
+		  <button type="button" class="btn btn-danger btn-sm" ng-show="toSave" ng-click="cancle();toSave=false;">取消</button>-->
         </div>
 
 	</div>
 	
 	<table id="tb_departments" style="color: green;"></table>
+	
+	<div class="modal fade" id="modifyRole" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+       <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title" id="myModalLabel">角色分配</h4>
+          </div>
+              <div class="modal-body">
+				<table>
+					<tbody>
+						<tr ng-repeat="data in roleName">
+							<td><input type="checkbox" name="check" value="{{data.id}}"></td>
+							<td>{{data.roleName}}</td>
+						</tr>
+					</tbody>
+				</table>
+                <div class="modal-footer">
+                  <button type="submit" class="btn btn-primary btn-sm" ng-click="modify()" data-dismiss="modal">保存</button>
+                  <button type="button" class="btn btn-success btn-sm" data-dismiss="modal" ng-click="cancel()" style="margin-left: 20px;">取消</button>
+                </div>  
+              </div>
+        </div>
+        </div>
+     </div> 
+	
 </div>
-<<<<<<< .mine
+
 	<script src="scripts/controllers/project_member/table_init.js"></script>
 	
 
@@ -35,6 +85,7 @@
 	var TableInit = function () {
 	    var oTableInit = {};
 	    //初始化Table
+	      var curRow = {};
 	    oTableInit.Init = function () {
 	        $('#tb_departments').bootstrapTable({
 	        	// dataType: 'object',
@@ -82,9 +133,11 @@
 	            },	{
 	            	field: 'role',
 	            	title: '角色'
-	            } ]
+	            }]
+
 	        });
 	    };
+		
 
 	    //得到查询的参数
 	    oTableInit.queryParams = function (params) {
@@ -121,6 +174,6 @@
 	//     //2.初始化Button的点击事件
 	//     var oButtonInit = new ButtonInit();
 	//     oButtonInit.Init();
-
+		
 	// });
 </script>

@@ -9,6 +9,7 @@
     "angular-route": "^1.4.0",
     "angular-sanitize": "^1.4.0",
     "angular-ui-router": "^0.3.1",
+    "angular-messages": "^1.5.8",
 	"lodash": "^4.16.4",
 	"restangular": "^1.5.2"
   },
